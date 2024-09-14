@@ -13,6 +13,14 @@ return new class extends Migration
     {
         Schema::create('childrens', function (Blueprint $table) {
             $table->id();
+            $table->string('Name');
+            $table->string('Lastname');
+            $table->string('Age');
+            $table->string('Nickname');
+            $table->string('Relation')->nullable();
+            $table->string('Avatar')->nullable();
+            $table->string('Gender')->nullable();
+            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
