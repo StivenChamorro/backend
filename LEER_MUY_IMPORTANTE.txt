@@ -1,0 +1,12 @@
+buenas 
+muchachos esperemos que este sea el ultimo proyecto laravel que creemos para nuestro proyecto, asi que les daré unas recomendaciones obligatorias jajaja
+1. metodos, variables, y demas poner su nombre en ingles (ejemplo, niños = childrens)
+2. voy a crear nuevas ramas en nuestro repositorio para que cada uno trabaje, vamos a manejar de la siguiente manera, por favor cada funcionalidad que agregen
+   haganle commit, por ejemplo si crearon un scope, hagan commit y especifiquen bien su commit. ejemplo "commit donde añao scope de anidación entre las tabla xxx 
+   y xxxx tuve estos errores o no tuve ninguna complicacion les recomiendo esto xxxxxxxxxxxxxx"
+3. comenten que es lo que estan haciendo en cada archivo o cosa que hagan
+4. manejar una sintaxis clara, nada de espacios y si hay palabras con espacios poner "_" . ejemplo role_user, manejar los nombres en minuscula, y en ingles
+5. cualquie cambio importante que pueda afectar a los demas por favor comentar en el grupo
+
+ya luego publicaré mas si hace falta 
+ 
