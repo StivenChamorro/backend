@@ -41,4 +41,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    //relaciones a nivel de modelos
+
+    // Un usuario puede tener muchos niños
+    //childrens esta en plural porque un usuario puede tener varios niños
+
+    public function childrens()
+    {
+        return $this->hasMany('App/Models/Children'); //hasMany se usa para obtener a todas las relaciones de uno a muchos
+    }
 }
