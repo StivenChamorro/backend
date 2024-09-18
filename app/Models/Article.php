@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -8,25 +9,25 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Article extends Model
 {
-    protected $fillable = ['name', 'type', 'cost', 'avatar', 'description', 'id_store'];
+    protected $fillable = ['name', 'description', 'price', 'avatar', 'store_id'];
     protected $table = 'articles';
 
     protected $allowIncluded = ['store', 'exchanges']; // Relaciones permitidas para inclusión
-    protected $allowFilter = ['id', 'name', 'type', 'cost']; // Campos permitidos para filtrado
-    protected $allowSort = ['id', 'name', 'type', 'cost']; // Campos permitidos para ordenamiento
+    protected $allowFilter = ['id', 'name', 'description', 'price']; // Campos permitidos para filtrado
+    protected $allowSort = ['id', 'name', 'price']; // Campos permitidos para ordenamiento
 
     public function store(): BelongsTo
     {
-        return $this->belongsTo(Store::class, 'id_store');
+        return $this->belongsTo(Store::class, 'store_id');
     }
 
     public function exchanges(): HasMany
     {
-        return $this->hasMany(Exchange::class, 'id_article');
+        return $this->hasMany(Exchange::class, 'article_id');
     }
 
     // Scope para incluir relaciones
-    public function scopeIncluded(Builder $query)
+    public function scopeIncluded(Builder $query): void
     {
         if (empty($this->allowIncluded) || empty(request('included'))) {
             return;
@@ -45,7 +46,7 @@ class Article extends Model
     }
 
     // Scope para filtrar resultados
-    public function scopeFilter(Builder $query)
+    public function scopeFilter(Builder $query): void
     {
         if (empty($this->allowFilter) || empty(request('filter'))) {
             return;
@@ -62,7 +63,7 @@ class Article extends Model
     }
 
     // Scope para ordenar resultados
-    public function scopeSort(Builder $query)
+    public function scopeSort(Builder $query): void
     {
         if (empty($this->allowSort) || empty(request('sort'))) {
             return;

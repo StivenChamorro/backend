@@ -8,11 +8,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Exchange extends Model
 {
-    protected $fillable = ['description', 'id_children', 'id_article'];
+    protected $fillable = ['description', 'children_id', 'article_id'];
     protected $table = 'exchanges';
 
     // Relaciones permitidas para inclusión
-    protected $allowIncluded = ['article', 'children']; //añadir mas relaciones (children.user) 
+    protected $allowIncluded = ['article', 'children']; // Añadir más relaciones si es necesario
     // Campos permitidos para filtrado
     protected $allowFilter = ['id', 'description']; 
     // Campos permitidos para ordenamiento
@@ -21,18 +21,13 @@ class Exchange extends Model
     // Relación con el modelo Article
     public function article(): BelongsTo
     {
-        return $this->belongsTo(Article::class, 'id_article');
+        return $this->belongsTo(Article::class, 'article_id');
     }
 
     // Relación con el modelo Children
     public function children(): BelongsTo
     {
-        return $this->belongsTo(Children::class, 'id_children');
-    }
-
-    // Relacion con el modelo Children_Image (HAIVER)
-    public function ChildrenImages (){
-        return $this->hasMany('App\Models\ChildrenImage');
+        return $this->belongsTo(Children::class, 'children_id');
     }
 
     // Scope para incluir relaciones

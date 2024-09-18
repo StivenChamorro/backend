@@ -1,27 +1,24 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Store extends Model
 {
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'description'];
     protected $table = 'stores';
 
     // Relación uno a muchos con Articles
-    public function articles()
+    public function articles(): HasMany
     {
-        return $this->hasMany(Article::class, 'id_store');
+        return $this->hasMany(Article::class, 'store_id');
     }
 
-    /**
-     * Scope para incluir relaciones según el parámetro 'included'.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @return void
-     */
-    public function scopeIncluded(Builder $query)
+    // Scope para incluir relaciones
+    public function scopeIncluded(Builder $query): void
     {
         $relations = request('included');
 
@@ -39,13 +36,8 @@ class Store extends Model
         $query->with($validRelations);
     }
 
-    /**
-     * Scope para filtrar resultados según el parámetro 'filter'.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @return void
-     */
-    public function scopeFilter(Builder $query)
+    // Scope para filtrar resultados
+    public function scopeFilter(Builder $query): void
     {
         $filters = request('filter');
 
@@ -53,7 +45,7 @@ class Store extends Model
             return;
         }
 
-        $allowFilter = ['name']; // Campos permitidos para filtrado
+        $allowFilter = ['name', 'description']; // Campos permitidos para filtrado
 
         foreach ($filters as $filter => $value) {
             if (in_array($filter, $allowFilter)) {
@@ -62,13 +54,8 @@ class Store extends Model
         }
     }
 
-    /**
-     * Scope para ordenar resultados según el parámetro 'sort'.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @return void
-     */
-    public function scopeSort(Builder $query)
+    // Scope para ordenar resultados
+    public function scopeSort(Builder $query): void
     {
         $sortFields = request('sort');
 
@@ -93,12 +80,7 @@ class Store extends Model
         }
     }
 
-    /**
-     * Scope para obtener o paginar resultados según el parámetro 'perPage'.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Pagination\LengthAwarePaginator
-     */
+    // Scope para obtener o paginar resultados
     public function scopeGetOrPaginate(Builder $query)
     {
         $perPage = request('perPage');
