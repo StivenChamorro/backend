@@ -12,7 +12,7 @@ class Image_User extends Model
 
     protected $fillable = ['image','exchange_id'];
 
-    protected $allowIncluded = ['Exchange'];
+    protected $allowIncluded = ['Exchange','Exchange.Article','Exchange.Article.Store','Exchange.Children','Exchange.Children.User'];
 
     protected $allowFilter = ['id', 'image', 'exchange_id'];
 

@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Api\AchievementController;
 use App\Http\Controllers\Api\ImageUserController;
+use App\Models\Achievement;
 use App\Models\Image_User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -28,9 +30,19 @@ Route::get('/prueba', function () {
     return 'Hola';
 });
 
+Route::prefix('imageUsers')->group(function () {
+    Route::get('/index', [ImageUserController::class,'index']);
+    Route::post('/store', [ImageUserController::class,'store']);
+    Route::get('/show/{id}', [ImageUserController::class,'show']);
+    Route::put('/update/{imageUser}', [ImageUserController::class,'update']);
+    Route::delete('/destroy/{imageUser}', [ImageUserController::class,'destroy']);
+});
 
-Route::get('imageUsers', [ImageUserController::class,'index'])->name('api.v1.imageUser.index');
-Route::post('imageUsers', [ImageUserController::class,'store'])->name('api.v1.imageUsers.store');
-Route::get('imageUsers/{imageUser}', [ImageUserController::class,'show'])->name('api.v1.imageUsers.show');
-Route::put('imageUsers/{imageUser}', [ImageUserController::class,'update'])->name('api.v1.imageUsers.update');
-Route::delete('imageUsers/{imageUser}', [ImageUserController::class,'destroy'])->name('api.v1.imageUsers.delete');
+
+Route::prefix('achievements')->group(function () {
+    Route::get('/index', [AchievementController::class,'index']);
+    Route::post('/store', [AchievementController::class,'store']);
+    Route::get('/show/{id}', [AchievementController::class,'show']);
+    Route::put('/update/{imageUser}', [AchievementController::class,'update']);
+    Route::delete('/destroy/{imageUser}', [AchievementController::class,'destroy']);
+});

@@ -13,4 +13,14 @@ class Exchange extends Model
     {
         return $this->hasMany(Image_User::class);
     }
+
+    public function Article()
+    {
+    return $this->belongsTo(Article::class); //belongsTo se usa para relacionar y obtener el inverso de una relacion uno a muchos
+    }
+
+    public function Children()
+    {
+    return $this->belongsTo(Children::class); //belongsTo se usa para relacionar y obtener el inverso de una relacion uno a muchos
+    }
 }
