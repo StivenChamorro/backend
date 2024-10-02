@@ -17,4 +17,10 @@ class Topic extends Model
     {
         return $this->hasMany('App\Models\Levels');
     }
+    //Con este metodo relacionamos la tabla question(pregunta) y topic(tema) a nivel de modelo con hasMany(tiene muchos) y la ruta de dicho modelo.
+    public function Questions()
+    {
+        return $this->hasMany('App\Models\Question');
+    }
+
 }

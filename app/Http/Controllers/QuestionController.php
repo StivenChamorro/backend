@@ -10,7 +10,8 @@ class QuestionController extends Controller
     /* En el metodo INDEX es por donde vamos a recibir todos los questions/preguntas que estan en nuestra bd. */
     public function index()
     {
-        $question = Question::all();
+        $question = Question::with(['Topic', 'levels'])->get(); // Este metodo ( With )nos ayuda a enlazar con las tablas y trea que los campos a los cuales en este caso (topic y levels) esta asociado question.
+        // $question = Question::all();
         return response()->json($question);
     }
     /* En el metodo STORE es por donde vamos a ingresar nuestro nuevo questions/preguntas y guardarlo en la bd. */
@@ -20,7 +21,10 @@ class QuestionController extends Controller
             'question' => 'required|string|max:200',
             'answer' => 'required|string|max:200',
             'score' => 'required|integer|max:100',
+            'clue' => 'required|string|max:200',
+            'help' => 'required|string|max:200',
             'correct_answer' => 'required|string|max:100',
+            'topic_id' => 'required|exists:topics,id',
         ]);
 
         $question = Question::create($request->all());
@@ -39,7 +43,10 @@ class QuestionController extends Controller
             'question' => 'required|string|max:200',
             'answer' => 'required|string|max:200',
             'score' => 'required|integer|max:100',
+            'clue' => 'required|string|max:200',
+            'help' => 'required|string|max:200',
             'correct_answer' => 'required|string|max:100',
+            'topic_id' => 'required|exists:topics,id',
         ]);
 
         $question->update($request->all());

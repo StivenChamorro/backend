@@ -25,6 +25,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/prueba', function () {
+    return "holaaa";
+});
 /* 
 |   Con estas rutas manejas las distintas peticiones http que podemos hacer desde postman como update,delete o show.
 |   Ya que con dichas rutas creamos tambien un CRUD, el cual desde peticiones http mediante nuestro cliente (postman)

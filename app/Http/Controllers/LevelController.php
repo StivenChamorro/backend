@@ -10,7 +10,7 @@ class LevelController extends Controller
     /* En el metodo INDEX es por donde vamos a recibir todos los level/nivel que estan en nuestra bd. */
     public function index()
     {
-        $level = Level::included()->get();;
+        $level = Level::included()->get();
         // $level = Level::all();
         return response()->json($level);
     }
@@ -20,7 +20,6 @@ class LevelController extends Controller
         $request->validate([
             'name' => 'required|string|max:30',
             'level' => 'required|string|max:200',
-            'help' => 'required|string|max:100',
             'score' => 'required|integer|max:100',
             'image' => 'required|string|max:3',
             'topic_id' => 'required|exists:topics,id',
@@ -41,7 +40,6 @@ class LevelController extends Controller
         $request->validate([
             'name' => 'required|string|max:30',
             'level' => 'required|string|max:200',
-            'help' => 'required|string|max:100',
             'score' => 'required|integer|max:100',
             'image' => 'required|string|max:3',
             'topic_id' => 'required|exists:topics,id',
