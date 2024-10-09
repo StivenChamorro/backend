@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -11,6 +12,8 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+
+   
 
     /**
      * The attributes that are mass assignable.
@@ -47,8 +50,13 @@ class User extends Authenticatable
     // Un usuario puede tener muchos niños
     //childrens esta en plural porque un usuario puede tener varios niños
 
+
     public function Childrens()
+
+    public function Childrens(): HasMany
+
     {
         return $this->hasMany(Children::class); //hasMany se usa para obtener a todas las relaciones de uno a muchos
     }
+  
 }
