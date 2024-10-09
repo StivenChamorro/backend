@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('level');
-            $table->string('help');
             $table->integer('score');
             $table->string('image');
             $table->foreignId('question_id')->references('id')->on('questions')->onDelete('cascade');
