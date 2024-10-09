@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
-
+namespace App\Http\Controllers\api;
+use App\Http\Controllers\Controller;
 use App\Models\Question;
+
 use Illuminate\Http\Request;
 
 class QuestionController extends Controller
@@ -10,8 +11,9 @@ class QuestionController extends Controller
     /* En el metodo INDEX es por donde vamos a recibir todos los questions/preguntas que estan en nuestra bd. */
     public function index()
     {
-        $question = Question::with(['Topic', 'levels'])->get(); // Este metodo ( With )nos ayuda a enlazar con las tablas y trea que los campos a los cuales en este caso (topic y levels) esta asociado question.
+        // $question = Question::with(['Topic', 'levels'])->get(); // Este metodo ( With )nos ayuda a enlazar con las tablas y trea que los campos a los cuales en este caso (topic y levels) esta asociado question.
         // $question = Question::all();
+        $question = Question::included()->get();
         return response()->json($question);
     }
     /* En el metodo STORE es por donde vamos a ingresar nuestro nuevo questions/preguntas y guardarlo en la bd. */

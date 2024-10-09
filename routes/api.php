@@ -1,11 +1,12 @@
 <?php
 
+use App\Http\Controllers\api\LevelController;
+use App\Http\Controllers\api\QuestionController;
+use App\Http\Controllers\api\TopicController;
 
-use App\Http\Controllers\LevelController;
-use App\Http\Controllers\QuestionController;
-use App\Http\Controllers\TopicController;
-use App\Http\Controllers\AchievementController;
 use App\Http\Controllers\api\ChildrenController;
+
+use App\Http\Controllers\AchievementController;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
