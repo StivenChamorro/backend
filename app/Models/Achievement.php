@@ -9,6 +9,10 @@ class Achievement extends Model
 {
     use HasFactory;
 
+
+    protected $fillable = ['name','description','reward','children_id','level_id'];
+
+
 //relacion a nivel de modelos 
 //relacion con children
 //un logro pertenece a un solo niño por eso esta en singular
@@ -27,6 +31,7 @@ class Achievement extends Model
        return $this->belongsTo('App/Models/Level'); //belongsTo llama al nivel al cual estan relacionados los logros
 
     }
+
 }
 
 

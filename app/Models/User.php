@@ -49,7 +49,9 @@ class User extends Authenticatable
 
     // Un usuario puede tener muchos niños
     //childrens esta en plural porque un usuario puede tener varios niños
+
     public function Childrens(): HasMany
+
     {
         return $this->hasMany(Children::class); //hasMany se usa para obtener a todas las relaciones de uno a muchos
     }
