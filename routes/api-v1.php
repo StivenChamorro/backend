@@ -1,9 +1,9 @@
 <?php
 
 use App\Http\Controllers\api\AchievementController;
-use App\Http\Controllers\LevelController;
-use App\Http\Controllers\QuestionController;
-use App\Http\Controllers\TopicController;
+use App\Http\Controllers\api\LevelController;
+use App\Http\Controllers\api\QuestionController;
+use App\Http\Controllers\api\TopicController;
 use App\Http\Controllers\api\ChildrenController;
 use App\Http\Controllers\api\ImageUserController;
 use App\Http\Controllers\api\UserController;
