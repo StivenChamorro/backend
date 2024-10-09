@@ -43,6 +43,6 @@ Route::prefix('achievements')->group(function () {
     Route::get('/index', [AchievementController::class,'index']);
     Route::post('/store', [AchievementController::class,'store']);
     Route::get('/show/{id}', [AchievementController::class,'show']);
-    Route::put('/update/{imageUser}', [AchievementController::class,'update']);
-    Route::delete('/destroy/{imageUser}', [AchievementController::class,'destroy']);
+    Route::put('/update/{achiviement}', [AchievementController::class,'update']);
+    Route::delete('/destroy/{achiviement}', [AchievementController::class,'destroy']);
 });
