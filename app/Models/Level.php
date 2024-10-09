@@ -5,9 +5,9 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Level extends Model
-{
+class Level extends Model {
     use HasFactory;
+
 
     //Estos Campos Entran para Asignacion Masiva
     protected $fillable = ['name', 'level', 'help', 'score', 'image', 'question_id', 'topic_id'];
@@ -26,6 +26,14 @@ class Level extends Model
     public function Question()
     {
         return $this->belongsTo('App\Models\Question');
+    }
+
+    // relacion a nivel de modelos relacion con achievement un nivel tiene muchos logros por eso la funcion esta en plural
+
+    public function achievements(){
+
+        return $this->hasMany('App/Models/Achievement');
+
     }
 
     /*
@@ -51,4 +59,7 @@ class Level extends Model
 
         $query->with($relations);
     }
+
 }
+
+    
