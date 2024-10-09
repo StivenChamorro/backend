@@ -1,14 +1,20 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\api;
 
+use App\Models\User;
+use App\Http\Controllers\Controller;
 use App\Models\Children;
 use Illuminate\Http\Request;
 
 class ChildrenController extends Controller
 {
     public function index(){
-        $childrens = Children::include();
+        //$childrens = Children::include()->get();
+
+        $childrens = Children::with(['User'])->get();
+
+        //return 'hola desde index';
 
         return response()->json($childrens);
     }
@@ -23,7 +29,7 @@ class ChildrenController extends Controller
             'relaction' => 'required|max:255',
             'avatar' => 'required|max:100',
             'gender' => 'required|max:100',
-            'user_id' => 'required|max:100',
+            'user_id' => 'required|exists:Users,id',
         ]);
 
         $children = Children::create($request->all());
@@ -54,7 +60,7 @@ class ChildrenController extends Controller
             'relaction' => 'required|max:255',
             'avatar' => 'required|max:100',
             'gender' => 'required|max:100',
-            'user_id' => 'required|max:100',
+            'user_id' => 'required|exists:Users,id',
         ]);
 
         $children->update($request->all());

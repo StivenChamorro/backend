@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\AchievementController;
-use App\Http\Controllers\ChildrenController;
+use App\Http\Controllers\api\ChildrenController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,22 +16,24 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
+ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+     return $request->user();
+});
 
 Route::get('/', function () {
     return 'Hola';
 });
 
+
+
 //rutas stiven (Childrens y Achievements)
 
 Route::prefix('children')->group(function () {                                                
-    Route::get('/index', [ChildrenController::class, 'index']);                                           
-    Route::post('/store', [ChildrenController::class, 'store']);                                        
-    Route::get('/show/{children}', [ChildrenController::class, 'show']);                                  
-    Route::put('/update/{children}', [ChildrenController::class, 'update']);                            
-    Route::delete('/destroy/{children}', [ChildrenController::class, 'destroy']); 
+    Route::get('index', [ChildrenController::class, 'index']);                                           
+    Route::post('store', [ChildrenController::class, 'store']);                                        
+    Route::get('show/{children}', [ChildrenController::class, 'show']);                                  
+    Route::put('update/{children}', [ChildrenController::class, 'update']);                            
+    Route::delete('destroy/{children}', [ChildrenController::class, 'destroy']); 
 });  
 
 Route::prefix('achievement')->group(function () {

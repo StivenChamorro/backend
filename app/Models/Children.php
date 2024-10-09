@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -15,9 +16,9 @@ class Children extends Model
  //relaciones a nivel de modelos
  // Un niño pertenece a un solo usuario
  // la clase esta llamada en singular porque un niño pertenece a un solo ususario
-   public function user(){
+   public function User(){
 
-      return $this->belongsTo('App/Models/User'); //belongsTo se usa para relacionar y obtener el inverso de una relacion uno a muchos
+      return $this->belongsTo(User::class); //belongsTo se usa para relacionar y obtener el inverso de una relacion uno a muchos
 
    }
 
@@ -30,7 +31,7 @@ class Children extends Model
 
    }
 
-   protected $allowIncluded = ['users']; //las posibles Querys que se pueden realizar
+   protected $allowIncluded = ['User']; //las posibles Querys que se pueden realizar
 
     /////////////////////////////////////////////////////////////////////////////
     public function scopeIncluded(Builder $query)
