@@ -28,7 +28,7 @@ class AchievementController extends Controller
     public function index()
     {
         $achiviements = Achievement::all();
-        //$achiviements = Achievement::included()->get();
+        $achiviements = Achievement::included()->get();
         //$achiviements = Achievement::included()->filter()->get();
         //$categories=Category::included()->filter()->sort()->get();
         //$categories=Category::included()->filter()->sort()->getOrPaginate();

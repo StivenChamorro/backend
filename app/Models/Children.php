@@ -33,9 +33,7 @@ public function User()
  //un niño tiene muchos logros por eso la fucnion esta nombrada en plural
 
    public function achievements(){
-
-      return $this->hasMany('App/Models/Achievement'); //has many llama a todos lo logros que tiene relacionado el niño
-
+      return $this->hasMany(Achievement::class); //has many llama a todos lo logros que tiene relacionado el niño
    }
 
    protected $allowIncluded = ['User']; //las posibles Querys que se pueden realizar
@@ -43,12 +41,12 @@ public function User()
     /////////////////////////////////////////////////////////////////////////////
     public function scopeIncluded(Builder $query)
     {
-       
+
         if(empty($this->allowIncluded)||empty(request('included'))){// validamos que la lista blanca y la variable included enviada a travez de HTTP no este en vacia.
             return;
         }
 
-        
+
         $relations = explode(',', request('included')); //['posts','relation2']//recuperamos el valor de la variable included y separa sus valores por una coma
 
         return $relations;
