@@ -37,7 +37,7 @@ class Level extends Model {
     }
 
     /*
-    ESCOPE ACHIEVEMENT/LOGROS (HAIVER) 
+    ESCOPE LEVEL/NIVELE (HAIVER) 
     */
     public function scopeIncluded(Builder $query)
     {
