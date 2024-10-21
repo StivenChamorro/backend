@@ -68,7 +68,7 @@ Route::prefix('question')->group(function () {
 });
 
 
-//rutas stiven (Childrens)
+//rutas stiven (Childrens y users)
 Route::prefix('children')->group(function () {                                                
     Route::get('index', [ChildrenController::class, 'index']);                                           
     Route::post('store', [ChildrenController::class, 'store']);                                        
