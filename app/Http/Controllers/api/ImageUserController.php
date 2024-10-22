@@ -25,9 +25,9 @@ class ImageUserController extends Controller
 
     public function index()
     {
-        $image_users = Image_User::all();
+        // $image_users = Image_User::all();
         $image_users = Image_User::included()->get();
-        $image_users = Image_User::included()->filter()->get();
+        // $image_users = Image_User::included()->filter()->get();
         //$categories=Category::included()->filter()->sort()->get();
         //$categories=Category::included()->filter()->sort()->getOrPaginate();
         return response()->json($image_users);
@@ -50,12 +50,12 @@ class ImageUserController extends Controller
     {
         $request->validate([
             'image' => '|max:255',
-            'exchange_id' => '|exists:exchanges,id' . $imageUser->id
+            'exchange_id' => '|exists:exchanges,id',
         ]);
 
         $imageUser->update($request->all());
 
-        return response()->json(['message'=>"el registro se actualizo exitosamente", $imageUser]);
+        return response()->json(['message'=>"el registro se actualizo exitosamente", 'image_user'=>$imageUser]);
     }
 
     public function destroy(Image_User $imageUser)
