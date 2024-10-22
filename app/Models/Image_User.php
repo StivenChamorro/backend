@@ -47,7 +47,7 @@ class Image_User extends Model
 
         $query->with($relations);
 
-        //http://api.codersfree.test/v1/categories?included=posts
+        //http://api.codersfree.test/v1/Image_Users?included=Exchange
 
 
     }
