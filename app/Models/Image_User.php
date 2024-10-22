@@ -33,7 +33,7 @@ class Image_User extends Model
         $relations = explode(',', request('included'));
 
 
- 
+
         $allowIncluded = collect($this->allowIncluded);
 
         foreach ($relations as $key => $relationship) {
