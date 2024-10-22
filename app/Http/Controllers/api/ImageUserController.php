@@ -25,9 +25,9 @@ class ImageUserController extends Controller
 
     public function index()
     {
-        // $image_users = Image_User::all();
+        $image_users = Image_User::all();
         $image_users = Image_User::included()->get();
-        // $image_users = Image_User::included()->filter()->get();
+        $image_users = Image_User::included()->filter()->get();
         //$categories=Category::included()->filter()->sort()->get();
         //$categories=Category::included()->filter()->sort()->getOrPaginate();
         return response()->json($image_users);
