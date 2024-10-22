@@ -11,16 +11,23 @@ class Children extends Model
 {
     use HasFactory;
 
+
+public function User()
+    {
+    return $this->belongsTo(User::class); //belongsTo se usa para relacionar y obtener el inverso de una relacion uno a muchos
+    }
+
+    public function Exchanges()
+    {
+    return $this->hasMany(Exchange::class); //belongsTo se usa para relacionar y obtener el inverso de una relacion uno a muchos
+    }
+
+
     protected $fillable = ['name', 'lastname', 'age', 'nickname', 'relation', 'avatar', 'gender', 'user_id']; //Campos que se van a asignacion masiva:
 
  //relaciones a nivel de modelos
  // Un niño pertenece a un solo usuario
  // la clase esta llamada en singular porque un niño pertenece a un solo ususario
-   public function User(){
-
-      return $this->belongsTo(User::class); //belongsTo se usa para relacionar y obtener el inverso de una relacion uno a muchos
-
-   }
 
  //relacion con logros
  //un niño tiene muchos logros por eso la fucnion esta nombrada en plural
@@ -65,6 +72,6 @@ class Children extends Model
     // return $this->allowIncluded;
 
     ///////////////////////////////////////////////////////////////////////////////////////////
+
 }
 
- 

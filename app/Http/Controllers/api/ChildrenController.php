@@ -1,8 +1,6 @@
 <?php
 
 namespace App\Http\Controllers\api;
-
-use App\Models\User;
 use App\Http\Controllers\Controller;
 use App\Models\Children;
 use Illuminate\Http\Request;
@@ -74,4 +72,3 @@ class ChildrenController extends Controller
         return response()->json($children);
     }
 }
-
