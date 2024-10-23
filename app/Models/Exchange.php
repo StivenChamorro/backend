@@ -2,25 +2,105 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Exchange extends Model
 {
-    use HasFactory;
+    protected $fillable = ['description', 'children_id', 'article_id'];
+    protected $table = 'exchanges';
 
-    public function  Image_Users()
+    // Relaciones permitidas para inclusión
+    protected $allowIncluded = ['article', 'children']; // Añadir más relaciones si es necesario
+    // Campos permitidos para filtrado
+    protected $allowFilter = ['id', 'description']; 
+    // Campos permitidos para ordenamiento
+    protected $allowSort = ['id', 'description']; 
+
+    // Relación con el modelo Article
+    public function article(): BelongsTo
     {
-        return $this->hasMany(Image_User::class);
+        return $this->belongsTo(Article::class, 'article_id');
     }
 
-    public function Article()
+    // Relación con el modelo Children
+    public function children(): BelongsTo
     {
-    return $this->belongsTo(Article::class); //belongsTo se usa para relacionar y obtener el inverso de una relacion uno a muchos
+        return $this->belongsTo(Children::class, 'children_id');
     }
 
-    public function Children()
+    // Scope para incluir relaciones
+    public function scopeIncluded(Builder $query): void
     {
-    return $this->belongsTo(Children::class); //belongsTo se usa para relacionar y obtener el inverso de una relacion uno a muchos
+        if (empty($this->allowIncluded) || !request()->has('included')) {
+            return;
+        }
+
+        $relations = explode(',', request('included'));
+        $allowIncluded = collect($this->allowIncluded);
+
+        foreach ($relations as $key => $relationship) {
+            if (!$allowIncluded->contains($relationship)) {
+                unset($relations[$key]);
+            }
+        }
+
+        $query->with($relations);
+    }
+
+    // Scope para filtrar resultados
+    public function scopeFilter(Builder $query): void
+    {
+        if (empty($this->allowFilter) || !request()->has('filter')) {
+            return;
+        }
+
+        $filters = request('filter');
+        $allowFilter = collect($this->allowFilter);
+
+        foreach ($filters as $filter => $value) {
+            if ($allowFilter->contains($filter)) {
+                $query->where($filter, 'LIKE', '%' . $value . '%');
+            }
+        }
+    }
+
+    // Scope para ordenar resultados
+    public function scopeSort(Builder $query): void
+    {
+        if (empty($this->allowSort) || !request()->has('sort')) {
+            return;
+        }
+
+        $sortFields = explode(',', request('sort'));
+        $allowSort = collect($this->allowSort);
+
+        foreach ($sortFields as $sortField) {
+            $direction = 'asc';
+
+            if (substr($sortField, 0, 1) === '-') {
+                $direction = 'desc';
+                $sortField = substr($sortField, 1);
+            }
+
+            if ($allowSort->contains($sortField)) {
+                $query->orderBy($sortField, $direction);
+            }
+        }
+    }
+
+    // Scope para obtener o paginar resultados
+    public function scopeGetOrPaginate(Builder $query)
+    {
+        if ($perPage = request('perPage')) {
+            $perPage = intval($perPage);
+
+            if ($perPage) {
+                return $query->paginate($perPage);
+            }
+        }
+
+        return $query->get();
     }
 }
