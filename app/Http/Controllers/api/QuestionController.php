@@ -24,7 +24,6 @@ class QuestionController extends Controller
             'answer' => 'required|string|max:200',
             'score' => 'required|integer|max:100',
             'clue' => 'required|string|max:200',
-            'help' => 'required|string|max:200',
             'correct_answer' => 'required|string|max:100',
             'topic_id' => 'required|exists:topics,id',
         ]);
@@ -46,7 +45,6 @@ class QuestionController extends Controller
             'answer' => 'required|string|max:200',
             'score' => 'required|integer|max:100',
             'clue' => 'required|string|max:200',
-            'help' => 'required|string|max:200',
             'correct_answer' => 'required|string|max:100',
             'topic_id' => 'required|exists:topics,id',
         ]);

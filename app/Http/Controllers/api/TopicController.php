@@ -21,7 +21,7 @@ class TopicController extends Controller
         $request->validate([
             'name' => 'required|string|max:30',
             'description' => 'required|string|max:200',
-            'dificult' => 'required|string|max:100',
+
         ]);
 
         $topic = Topic::create($request->all());
@@ -39,7 +39,7 @@ class TopicController extends Controller
         $request->validate([
             'name' => 'required|string|max:30',
             'description' => 'required|string|max:200',
-            'dificult' => 'required|string|max:100',
+            
         ]);
 
         $topic->update($request->all());
