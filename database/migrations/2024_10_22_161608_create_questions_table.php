@@ -11,14 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('question', function (Blueprint $table) {
+        Schema::create('questions', function (Blueprint $table) {
             $table->id();
             $table->string('question');
             $table->string('answer');
             $table->integer('score');
             $table->string('correct_answer');
-            $table->string('clue'); // agregamos como nuevo campo, clue(pista) 
-            $table->foreignId('topic_id')->references('id')->on('topics')->onDelete('cascade'); // Y agregamos como llave foranea topic(tema) a question
+            $table->string('clue'); // agregamos como nuevo campo, clue(pista) // Y agregamos como llave foranea topic(tema) a question
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('question');
+        Schema::dropIfExists('questions');
     }
 };

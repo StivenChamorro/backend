@@ -18,6 +18,7 @@ return new class extends Migration
             $table->double('price');
             $table->string('avatar');
             $table->string('type');
+            $table->foreignId('store_id')->references('id')->on('stores')->onDelete('cascade');
             $table->timestamps();
         });
     }
