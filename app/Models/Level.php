@@ -15,6 +15,9 @@ class Level extends Model {
     /* Con $allowIncluded podemos relaizar querys. en este caso se pueden ver los id de topics y questions de dicho level, 
     ya que $allowIncluded me permite anidar los id de topics y questions como FK de level */
     protected $allowIncluded=['Topic','Question'];
+    
+    /* Con $allowfilter podemos realizar busquedas especificas de un nivel en especifico. */
+    protected $allowFilter = ['id','name','score','question_id','topic_id'];
 
 
     //Con este metodo relacionamos la topic(tema) y levels(niveles) a nivel de modelo con belongsTo(pertenece a mucho) y la ruta de dicho modelo. 
@@ -37,7 +40,7 @@ class Level extends Model {
     }
 
     /*
-    ESCOPE LEVEL/NIVELE (HAIVER) 
+    SCOPE-INCLUDED LEVEL/NIVELE (HAIVER) 
     */
     public function scopeIncluded(Builder $query)
     {
@@ -59,7 +62,25 @@ class Level extends Model {
 
         $query->with($relations);
     }
-
-}
-
     
+    // SCOPE-FILTER (HAIVER VELASCO)
+
+    public function scopeFilter(Builder $query)
+    {
+
+        if (empty($this->allowFilter) || empty(request('filter'))) {
+            return;
+        }
+
+        $filters = request('filter');
+        $allowFilter = collect($this->allowFilter);
+
+        foreach ($filters as $filter => $value) {
+
+            if ($allowFilter->contains($filter)) {
+
+                $query->where($filter, 'LIKE', '%' . $value . '%');
+            }
+        }
+    }
+}
