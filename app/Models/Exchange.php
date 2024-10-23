@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Exchange extends Model
 {
@@ -14,9 +15,9 @@ class Exchange extends Model
     // Relaciones permitidas para inclusión
     protected $allowIncluded = ['article', 'children']; // Añadir más relaciones si es necesario
     // Campos permitidos para filtrado
-    protected $allowFilter = ['id', 'description']; 
+    protected $allowFilter = ['id', 'description'];
     // Campos permitidos para ordenamiento
-    protected $allowSort = ['id', 'description']; 
+    protected $allowSort = ['id', 'description'];
 
     // Relación con el modelo Article
     public function article(): BelongsTo
@@ -28,6 +29,10 @@ class Exchange extends Model
     public function children(): BelongsTo
     {
         return $this->belongsTo(Children::class, 'children_id');
+    }
+    public function Image_Users()
+    {
+        return $this->hasMany(Image_User::class);
     }
 
     // Scope para incluir relaciones

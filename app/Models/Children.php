@@ -24,7 +24,9 @@ public function User()
 
 
     protected $fillable = ['name', 'lastname', 'age', 'nickname', 'relation', 'avatar', 'gender', 'user_id']; //Campos que se van a asignacion masiva:
-
+    protected $allowIncluded = ['User','Exchanges','Exchanges.Image_Users','Exchanges.Article','Exchanges.Article.Store',
+    'Achievements','Achievements.Level','Achievements.Level.Topic','Achievements.Level.Question']; //las posibles Querys que se pueden realizar
+    protected $allowFilter = ['id','name','lastname','age','nickname','relation','avatar','gender','user_id'];
  //relaciones a nivel de modelos
  // Un niño pertenece a un solo usuario
  // la clase esta llamada en singular porque un niño pertenece a un solo ususario
@@ -35,8 +37,6 @@ public function User()
    public function achievements(){
       return $this->hasMany(Achievement::class); //has many llama a todos lo logros que tiene relacionado el niño
    }
-
-   protected $allowIncluded = ['User']; //las posibles Querys que se pueden realizar
 
     /////////////////////////////////////////////////////////////////////////////
     public function scopeIncluded(Builder $query)
@@ -49,7 +49,7 @@ public function User()
 
         $relations = explode(',', request('included')); //['posts','relation2']//recuperamos el valor de la variable included y separa sus valores por una coma
 
-        return $relations;
+       // return $relations;
 
         $allowIncluded = collect($this->allowIncluded); //colocamos en una colecion lo que tiene $allowIncluded en este caso = ['posts','posts.user']
 
@@ -65,11 +65,59 @@ public function User()
 
 
     }
-
     //return $relations;
     // return $this->allowIncluded;
+    public function scopeFilter(Builder $query)
+    {
+
+        if (empty($this->allowFilter) || empty(request('filter'))) {
+            return;
+        }
+
+        $filters = request('filter');
+        $allowFilter = collect($this->allowFilter);
+
+        foreach ($filters as $filter => $value) {
+
+            if ($allowFilter->contains($filter)) {
+
+                $query->where($filter, 'LIKE', '%' . $value . '%');
+            }
+        }
+
+        //http://api.codersfree1.test/v1/categories?filter[name]=depo
+        //http://api.codersfree1.test/v1/categories?filter[name]=posts&filter[id]=2
+
+    }
+
+    public function scopeSort(Builder $query)
+    {
+
+        if (empty($this->allowSort) || empty(request('sort'))) {
+            return;
+        }
+
+        $sortFields = explode(',', request('sort'));
+        $allowSort = collect($this->allowSort);
+
+        foreach ($sortFields as $sortField) {
+
+            $direction = 'asc';
+
+            if (substr($sortField, 0, 1) == '-') {
+                $direction = 'desc';
+                $sortField = substr($sortField, 1);
+
+            if ($allowSort->contains($sortField)) {
+                $query->orderBy($sortField, $direction);
+            }
+        }
+        //http://api.codersfree1.test/v1/categories?sort=name
+    }
+    }
+}
 
     ///////////////////////////////////////////////////////////////////////////////////////////
 
-}
+
 
