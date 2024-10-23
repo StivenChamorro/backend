@@ -11,7 +11,8 @@ class TopicController extends Controller
     /* En el metodo INDEX es por donde vamos a recibir todos los topics/temas que estan en nuestra bd. */
     public function index()
     {
-        $topic = Topic::all();
+        // $topic = Topic::all();
+        $topic = Topic::included()->get();
         return response()->json($topic);
     }
     /* En el metodo STORE es por donde vamos a ingresar nuestro nuevo topic/tema y guardarlo en la bd. */
