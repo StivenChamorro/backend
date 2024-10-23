@@ -9,8 +9,10 @@ class ChildrenController extends Controller
 {
     public function index(){
         //$childrens = Children::include()->get();
-
-        $childrens = Children::with(['User'])->get();
+         $childrens = Children::all();
+         $childrens = Children::included()->get();
+         $childrens = Children::included()->filter()->get();
+        //$childrens = Children::with(['User'])->get();
 
         //return 'hola desde index';
 
@@ -18,7 +20,7 @@ class ChildrenController extends Controller
     }
 
     public function store(Request $request){
-        
+
         $request->validate([
             'name' => 'required|max:255',
             'lastname' => 'required|max:255',
@@ -36,8 +38,8 @@ class ChildrenController extends Controller
     }
 
     public function show($id) //si se pasa $id se utiliza la comentada
-    {  
-        
+    {
+
         $children = Children::findOrFail($id);
         // $category = Category::with(['posts.user'])->findOrFail($id);
         // $category = Category::with(['posts'])->findOrFail($id);

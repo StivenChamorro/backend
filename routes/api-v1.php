@@ -33,10 +33,10 @@ Route::get('/', function () {
 Route::get('/prueba', function () {
     return "holaaa";
 });
-/* 
+/*
 |   Con estas rutas manejas las distintas peticiones http que podemos hacer desde postman como update,delete o show.
 |   Ya que con dichas rutas creamos tambien un CRUD, el cual desde peticiones http mediante nuestro cliente (postman)
-|   podemos interactuar con nuestra BD. 
+|   podemos interactuar con nuestra BD.
 */
 
 // RUTAS_TOPICS (HAIVER VELASCO)
@@ -69,23 +69,23 @@ Route::prefix('question')->group(function () {
 
 
 //rutas stiven (Childrens y users)
-Route::prefix('children')->group(function () {                                                
-    Route::get('index', [ChildrenController::class, 'index']);                                           
-    Route::post('store', [ChildrenController::class, 'store']);                                        
-    Route::get('show/{children}', [ChildrenController::class, 'show']);                                  
-    Route::put('update/{children}', [ChildrenController::class, 'update']);                            
-    Route::delete('destroy/{children}', [ChildrenController::class, 'destroy']); 
-});  
+Route::prefix('children')->group(function () {
+    Route::get('index', [ChildrenController::class, 'index']);
+    Route::post('store', [ChildrenController::class, 'store']);
+    Route::get('show/{children}', [ChildrenController::class, 'show']);
+    Route::put('update/{children}', [ChildrenController::class, 'update']);
+    Route::delete('destroy/{children}', [ChildrenController::class, 'destroy']);
+});
 
-Route::prefix('user')->group(function () {                                                
-    Route::get('index', [UserController::class, 'index']);                                           
-    Route::post('store', [UserController::class, 'store']);                                        
-    Route::get('show/{user}', [UserController::class, 'show']);                                  
-    Route::put('update/{user}', [UserController::class, 'update']);                            
-    Route::delete('destroy/{user}', [UserController::class, 'destroy']); 
-}); 
+Route::prefix('user')->group(function () {
+    Route::get('index', [UserController::class, 'index']);
+    Route::post('store', [UserController::class, 'store']);
+    Route::get('show/{user}', [UserController::class, 'show']);
+    Route::put('update/{user}', [UserController::class, 'update']);
+    Route::delete('destroy/{user}', [UserController::class, 'destroy']);
+});
 
-//rutas brayan 
+//rutas brayan
 
 Route::prefix('imageUsers')->group(function () {
     Route::get('/index', [ImageUserController::class,'index']);

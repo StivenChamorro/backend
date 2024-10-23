@@ -23,17 +23,17 @@ class Level extends Model {
     //Con este metodo relacionamos la topic(tema) y levels(niveles) a nivel de modelo con belongsTo(pertenece a mucho) y la ruta de dicho modelo.
     public function Topic()
     {
-        return $this->belongsTo('App\Models\Topic');
+        return $this->belongsTo(Topic::class);
     }
     //Con este metodo relacionamos la question(pregunta) y levels(niveles) a nivel de modelo con belongsTo(pertenece a mucho) y la ruta de dicho modelo.
     public function Question()
     {
-        return $this->belongsTo('App\Models\Question');
+        return $this->belongsTo(Question::class);
     }
 
     // relacion a nivel de modelos relacion con achievement un nivel tiene muchos logros por eso la funcion esta en plural
 
-    public function achievements(){
+    public function Achievements(){
 
         return $this->hasMany(Achievement::class);
 
