@@ -11,8 +11,8 @@ class Level extends Model {
 
     //Estos Campos Entran para Asignacion Masiva
     protected $fillable = ['name', 'level', 'help', 'score', 'image', 'question_id', 'topic_id'];
-    
-    /* Con $allowIncluded podemos relaizar querys. en este caso se pueden ver los id de topics y questions de dicho level, 
+
+    /* Con $allowIncluded podemos relaizar querys. en este caso se pueden ver los id de topics y questions de dicho level,
     ya que $allowIncluded me permite anidar los id de topics y questions como FK de level */
     protected $allowIncluded=['Topic','Question'];
     
@@ -20,7 +20,7 @@ class Level extends Model {
     protected $allowFilter = ['id','name','score','question_id','topic_id'];
 
 
-    //Con este metodo relacionamos la topic(tema) y levels(niveles) a nivel de modelo con belongsTo(pertenece a mucho) y la ruta de dicho modelo. 
+    //Con este metodo relacionamos la topic(tema) y levels(niveles) a nivel de modelo con belongsTo(pertenece a mucho) y la ruta de dicho modelo.
     public function Topic()
     {
         return $this->belongsTo('App\Models\Topic');
@@ -35,7 +35,7 @@ class Level extends Model {
 
     public function achievements(){
 
-        return $this->hasMany('App/Models/Achievement');
+        return $this->hasMany(Achievement::class);
 
     }
 
@@ -78,6 +78,7 @@ class Level extends Model {
         foreach ($filters as $filter => $value) {
 
             if ($allowFilter->contains($filter)) {
+
 
                 $query->where($filter, 'LIKE', '%' . $value . '%');
             }

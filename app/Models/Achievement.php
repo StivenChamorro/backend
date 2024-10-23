@@ -12,14 +12,20 @@ class Achievement extends Model
 
     protected $fillable = ['name','description','reward','children_id','level_id'];
 
+    protected $allowIncluded = ['Children','Children.User','level'];
 
-//relacion a nivel de modelos 
+    protected $allowFilter = ['id', 'image', 'exchange_id'];
+
+    protected $allowSort = ['id', 'image', 'exchange_id'];
+
+
+//relacion a nivel de modelos
 //relacion con children
 //un logro pertenece a un solo niño por eso esta en singular
 
     public function children(){
 
-        return $this->belongsTo('App/Models/Children');  //belongsTo llama al niño al cual estann relacionados los logros
+        return $this->belongsTo(Children::class);  //belongsTo llama al niño al cual estann relacionados los logros
 
     }
 
@@ -28,7 +34,7 @@ class Achievement extends Model
 
     public function level(){
 
-       return $this->belongsTo('App/Models/Level'); //belongsTo llama al nivel al cual estan relacionados los logros
+       return $this->belongsTo(Level::class); //belongsTo llama al nivel al cual estan relacionados los logros
 
     }
 
