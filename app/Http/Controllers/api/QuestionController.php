@@ -25,7 +25,6 @@ class QuestionController extends Controller
             'score' => 'required|integer|max:100',
             'clue' => 'required|string|max:200',
             'correct_answer' => 'required|string|max:100',
-            'topic_id' => 'required|exists:topics,id',
         ]);
 
         $question = Question::create($request->all());
@@ -46,7 +45,6 @@ class QuestionController extends Controller
             'score' => 'required|integer|max:100',
             'clue' => 'required|string|max:200',
             'correct_answer' => 'required|string|max:100',
-            'topic_id' => 'required|exists:topics,id',
         ]);
 
         $question->update($request->all());
