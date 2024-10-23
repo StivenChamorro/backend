@@ -11,16 +11,16 @@ class Topic extends Model
     use HasFactory;
 
     //Estos Campos Entran para Asignacion Masiva
-    protected $fillable = ['name', 'description', 'dificult'];
+    protected $fillable = ['name', 'description'];
 
-    /* Con $allowIncluded podemos relaizar querys. en este caso se pueden ver los id de topics y questions de dicho level, 
+    /* Con $allowIncluded podemos relaizar querys. en este caso se pueden ver los id de topics y questions de dicho level,
     ya que $allowIncluded me permite anidar los id de topics y questions como FK de level */
     protected $allowIncluded=['levels','Question'];
-    
-    /* Con $allowfilter podemos realizar busquedas especificas de un nivel en especifico. */
-    protected $allowFilter = ['id','name','dificult'];
 
-    //Con este metodo relacionamos la topic(tema) y levels(niveles) a nivel de modelo con hasMany(tiene muchos) y la ruta de dicho modelo. 
+    /* Con $allowfilter podemos realizar busquedas especificas de un nivel en especifico. */
+    protected $allowFilter = ['id','name'];
+
+    //Con este metodo relacionamos la topic(tema) y levels(niveles) a nivel de modelo con hasMany(tiene muchos) y la ruta de dicho modelo.
     public function Levels()
     {
         return $this->hasMany('App\Models\Levels');
@@ -52,7 +52,7 @@ class Topic extends Model
 
         $query->with($relations);
     }
-    
+
     // SCOPE-FILTER (HAIVER VELASCO)
 
     public function scopeFilter(Builder $query)
