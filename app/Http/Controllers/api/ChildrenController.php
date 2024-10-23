@@ -24,10 +24,10 @@ class ChildrenController extends Controller
         $request->validate([
             'name' => 'required|max:255',
             'lastname' => 'required|max:255',
-            'age' => 'required|max:2',
+            'age' => 'required|max:100',
             'nickname' => 'required|max:255',
             'relaction' => 'required|max:255',
-            'avatar' => 'required|max:100',
+            'avatar' => 'required',
             'gender' => 'required|max:100',
             'user_id' => 'required|exists:Users,id',
         ]);
@@ -55,10 +55,10 @@ class ChildrenController extends Controller
         $request->validate([
             'name' => 'required|max:255',
             'lastname' => 'required|max:255',
-            'age' => 'required|max:2',
+            'age' => 'required|max:100',
             'nickname' => 'required|max:255',
             'relaction' => 'required|max:255',
-            'avatar' => 'required|max:100',
+            'avatar' => 'required',
             'gender' => 'required|max:100',
             'user_id' => 'required|exists:Users,id',
         ]);
