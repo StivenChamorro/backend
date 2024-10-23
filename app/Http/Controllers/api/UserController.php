@@ -17,9 +17,12 @@ class UserController extends Controller
         
         $request->validate([
             'name' => 'required|max:255',
+            'last_name' => 'required|max:255',
+            'age' => 'required|max:100',
             'email' => 'required|max:255',
-            'password' => 'required|max:2',
-            
+            'user' => 'required|max:255',
+            'password' => 'required|max:200',
+            'pin' => 'required|max:4',
         ]);
 
         $user = User::create($request->all());
@@ -44,8 +47,12 @@ class UserController extends Controller
 
         $request->validate([
             'name' => 'required|max:255',
+            'last_name' => 'required|max:255',
+            'age' => 'required|max:100',
             'email' => 'required|max:255',
-            'password' => 'required|max:2',
+            'user' => 'required|max:255',
+            'password' => 'required|max:200',
+            'pin' => 'required|max:4',
         ]);
 
         $user->update($request->all());
