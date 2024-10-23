@@ -32,10 +32,10 @@ class ArticleController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'type' => 'required|string|max:255',
-            'cost' => 'required|string|max:255',
-            'avatar' => 'nullable|string|max:255',
             'description' => 'required|string',
+            'price' => 'required|string|max:255',
+            'avatar' => 'nullable|string|max:255',
+            'type' => 'required|string|max:255',
             'id_store' => 'required|exists:stores,id', // Validación adicional para la relación con stores
         ]);
 
@@ -66,12 +66,12 @@ class ArticleController extends Controller
     public function update(Request $request, Article $article)
     {
         $request->validate([
-            'name' => 'sometimes|string|max:255',
-            'type' => 'sometimes|string|max:255',
-            'cost' => 'sometimes|string|max:255',
+            'name' => 'required|string|max:255',
+            'description' => 'required|string',
+            'price' => 'required|string|max:255',
             'avatar' => 'nullable|string|max:255',
-            'description' => 'sometimes|string',
-            'id_store' => 'sometimes|exists:stores,id', // Validación para la relación con stores
+            'type' => 'required|string|max:255',
+            'id_store' => 'required|exists:stores,id', // Validación para la relación con stores
         ]);
 
         $article->update($request->all());
