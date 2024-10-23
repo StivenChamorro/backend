@@ -76,6 +76,14 @@ Route::prefix('children')->group(function () {
     Route::put('update/{children}', [ChildrenController::class, 'update']);
     Route::delete('destroy/{children}', [ChildrenController::class, 'destroy']);
 });
+//rutas stiven (Childrens y users)
+Route::prefix('children')->group(function () {
+    Route::get('index', [ChildrenController::class, 'index']);
+    Route::post('store', [ChildrenController::class, 'store']);
+    Route::get('show/{children}', [ChildrenController::class, 'show']);
+    Route::put('update/{children}', [ChildrenController::class, 'update']);
+    Route::delete('destroy/{children}', [ChildrenController::class, 'destroy']);
+});
 
 Route::prefix('user')->group(function () {
     Route::get('index', [UserController::class, 'index']);
