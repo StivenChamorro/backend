@@ -2,7 +2,7 @@
 FROM php:8.2-fpm
 
 # Instalar dependencias del sistema
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     libpng-dev \
     libjpeg-dev \
     libfreetype6-dev \
@@ -11,10 +11,12 @@ RUN apt-get update && apt-get install -y \
     zip \
     unzip \
     git \
-    curl
+    curl \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Instalar extensiones de PHP necesarias para Laravel
-RUN docker-php-ext-install pdo mbstring tokenizer xml gd
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install pdo mbstring tokenizer xml gd
 
 # Instalar Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -22,13 +24,16 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Establecer directorio de trabajo
 WORKDIR /var/www/html
 
+# Copiar el archivo de Composer primero para optimizar el build si no cambian
+COPY composer.json composer.lock ./
+
+# Instalar dependencias de PHP sin interacción
+RUN composer install --no-interaction --prefer-dist --optimize-autoloader
+
 # Copiar el contenido del proyecto al contenedor
 COPY . .
 
-# Instalar dependencias de PHP
-RUN composer install --no-interaction --prefer-dist --optimize-autoloader
-
-# Establecer permisos
+# Establecer permisos correctos para las carpetas de Laravel
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
 # Exponer el puerto 9000 para PHP-FPM
