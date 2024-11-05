@@ -9,4 +9,5 @@ muchachos esperemos que este sea el ultimo proyecto laravel que creemos para nue
 5. cualquie cambio importante que pueda afectar a los demas por favor comentar en el grupo
 
 ya luego publicaré mas si hace falta 
- 
+
+commit para instala token jwt
