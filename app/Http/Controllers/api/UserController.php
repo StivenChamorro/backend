@@ -16,12 +16,12 @@ class UserController extends Controller
     public function store(Request $request){
         
         $request->validate([
-            'name' => 'required|max:255',
+            'name' => 'required',
             'last_name' => 'required|max:255',
             'age' => 'required|max:100',
-            'email' => 'required|max:255',
+            'email' => 'required|email|unique:users',
             'user' => 'required|max:255',
-            'password' => 'required|max:200',
+            'password' => 'required|confirmed|min:3',
             'pin' => 'required|max:4',
         ]);
 
@@ -46,12 +46,12 @@ class UserController extends Controller
     public function update(Request $request, User $user){
 
         $request->validate([
-            'name' => 'required|max:255',
+            'name' => 'required',
             'last_name' => 'required|max:255',
             'age' => 'required|max:100',
-            'email' => 'required|max:255',
+            'email' => 'required|email|unique:users',
             'user' => 'required|max:255',
-            'password' => 'required|max:200',
+            'password' => 'required|confirmed|min:3',
             'pin' => 'required|max:4',
         ]);
 

@@ -2,20 +2,18 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable
+class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable;
-
-   
 
     /**
      * The attributes that are mass assignable.
@@ -47,51 +45,58 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    protected $allowIncluded = ['Children']; //las posibles Querys que se pueden realizar
+    protected $allowIncluded = ['Children'];
     protected $allowFilter = ['id','name','lastname','age','nickname','relation','avatar','gender','user_id'];
 
-    //relaciones a nivel de modelos
-
-    // Un usuario puede tener muchos niños
-    //childrens esta en plural porque un usuario puede tener varios niños
-
-    public function Childrens(): HasMany
-
+    // Implementación JWT
+    public function getJWTIdentifier()
     {
-        return $this->hasMany(Children::class); //hasMany se usa para obtener a todas las relaciones de uno a muchos
+        return $this->getKey();
     }
 
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
+
+    // Relaciones a nivel de modelos
+    public function Childrens(): HasMany
+    {
+        return $this->hasMany(Children::class);
+    }
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, 'role_user', 'user_id', 'role_id');
+    }
+
+    // Método para verificar si el usuario tiene un rol específico
+    public function hasRole($roleName)
+    {
+        return $this->roles()->where('name', $roleName)->exists();
+    }
+
+    // Scopes personalizados
     public function scopeIncluded(Builder $query)
     {
-
-        if(empty($this->allowIncluded)||empty(request('included'))){// validamos que la lista blanca y la variable included enviada a travez de HTTP no este en vacia.
+        if (empty($this->allowIncluded) || empty(request('included'))) {
             return;
         }
 
+        $relations = explode(',', request('included'));
+        $allowIncluded = collect($this->allowIncluded);
 
-        $relations = explode(',', request('included')); //['posts','relation2']//recuperamos el valor de la variable included y separa sus valores por una coma
-
-       // return $relations;
-
-        $allowIncluded = collect($this->allowIncluded); //colocamos en una colecion lo que tiene $allowIncluded en este caso = ['posts','posts.user']
-
-        foreach ($relations as $key => $relationship) { //recorremos el array de relaciones
-
+        foreach ($relations as $key => $relationship) {
             if (!$allowIncluded->contains($relationship)) {
                 unset($relations[$key]);
             }
         }
-        $query->with($relations); //se ejecuta el query con lo que tiene $relations en ultimas es el valor en la url de included
 
-        //http://api.codersfree1.test/v1/categories?included=posts
-
-
+        $query->with($relations);
     }
-    //return $relations;
-    // return $this->allowIncluded;
+
     public function scopeFilter(Builder $query)
     {
-
         if (empty($this->allowFilter) || empty(request('filter'))) {
             return;
         }
@@ -100,21 +105,14 @@ class User extends Authenticatable
         $allowFilter = collect($this->allowFilter);
 
         foreach ($filters as $filter => $value) {
-
             if ($allowFilter->contains($filter)) {
-
                 $query->where($filter, 'LIKE', '%' . $value . '%');
             }
         }
-
-        //http://api.codersfree1.test/v1/categories?filter[name]=depo
-        //http://api.codersfree1.test/v1/categories?filter[name]=posts&filter[id]=2
-
     }
 
     public function scopeSort(Builder $query)
     {
-
         if (empty($this->allowSort) || empty(request('sort'))) {
             return;
         }
@@ -123,18 +121,15 @@ class User extends Authenticatable
         $allowSort = collect($this->allowSort);
 
         foreach ($sortFields as $sortField) {
-
             $direction = 'asc';
-
             if (substr($sortField, 0, 1) == '-') {
                 $direction = 'desc';
                 $sortField = substr($sortField, 1);
+            }
 
             if ($allowSort->contains($sortField)) {
                 $query->orderBy($sortField, $direction);
             }
-        }
-        //http://api.codersfree1.test/v1/categories?sort=name
         }
     }
 }
