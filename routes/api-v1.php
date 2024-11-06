@@ -10,7 +10,8 @@ use App\Http\Controllers\api\ExchangeController;
 use App\Http\Controllers\api\ImageUserController;
 use App\Http\Controllers\api\StoreController;
 use App\Http\Controllers\api\UserController;
-
+use App\Http\Controllers\api\AuthController;
+use App\Http\Controllers\api\RoleController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,11 +26,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-
 Route::get('/', function () {
     return view('welcome');
 });
@@ -37,11 +33,33 @@ Route::get('/', function () {
 Route::get('/prueba', function () {
     return "holaaa";
 });
+
 /*
 |   Con estas rutas manejas las distintas peticiones http que podemos hacer desde postman como update,delete o show.
 |   Ya que con dichas rutas creamos tambien un CRUD, el cual desde peticiones http mediante nuestro cliente (postman)
 |   podemos interactuar con nuestra BD.
 */
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
+});
+//RUTAS DE AUTENTIFICACION//
+Route::group([
+    'prefix' => 'auth',
+], function () {
+    Route::post('register', [AuthController::class, 'register'])->name('register');
+    Route::post('login', [AuthController::class, 'login'])->name('login');
+    Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+    Route::post('refresh', [AuthController::class, 'refresh'])->name('refresh');
+    Route::post('me', [AuthController::class, 'me'])->name('me');
+});
+
+//RUTAS PARA LOS ROLES
+Route::prefix('roles')->group(function () {
+    Route::post('/assign/{user_id}', [RoleController::class, 'assignRole']); // Asignar un rol
+    Route::post('/remove/{user_id}', [RoleController::class, 'removeRole']); // Quitar un rol
+    Route::get('/user/{user_id}', [RoleController::class, 'getUserRoles']); // Obtener roles de un usuario
+    Route::get('/all', [RoleController::class, 'getAllRoles']); // Obtener todos los roles
+});
 
 // RUTAS_TOPICS (HAIVER VELASCO)
 Route::prefix('topic')->group(function () {
