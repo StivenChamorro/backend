@@ -22,7 +22,7 @@ class ChildrenFactory extends Factory
         return [
             'name' => $this->faker->firstName(),
             'lastname' => $this->faker->lastName(),
-            'birthdate' => $this->faker->dateTimeBetween('-11 years', '-5 years'),
+            'age' => $this->faker->numberBetween(3, 12), // Edad entre 3 y 12 años, por ejemplo.
             'nickname' => $this->faker->userName(),
             'relation' => $this->faker->randomElement(['hijo', 'hija', 'sobrino', 'sobrina']), // Relación opcional.
             'avatar' => $this->faker->imageUrl(200, 200, 'avatar'), // URL aleatoria para avatar.
