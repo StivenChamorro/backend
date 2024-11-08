@@ -13,7 +13,6 @@ class ImageUserController extends Controller
     {
 
         $request->validate([
-            'image' => '|max:255',
             'exchange_id' => '|exists:exchanges,id',
 
         ]);
@@ -49,7 +48,6 @@ class ImageUserController extends Controller
     public function update(Request $request, Image_User $imageUser)
     {
         $request->validate([
-            'image' => '|max:255',
             'exchange_id' => '|exists:exchanges,id',
         ]);
 

@@ -20,11 +20,8 @@ class LevelController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:30',
-            'level' => 'required|string|max:200',
-            'score' => 'required|integer|max:100',
-            'image' => 'required|string|max:3',
+            'score' => 'required|integer|max:255',
             'topic_id' => 'required|exists:topics,id',
-            'question_id' => 'required|exists:questions,id',
         ]);
         $level = Level::create($request->all());
         return response()->json($level);
@@ -40,9 +37,7 @@ class LevelController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:30',
-            'level' => 'required|string|max:200',
-            'score' => 'required|integer|max:100',
-            'image' => 'required|string|max:3',
+            'score' => 'required|integer|max:255',
             'topic_id' => 'required|exists:topics,id',
             'question_id' => 'required|exists:questions,id',
         ]);

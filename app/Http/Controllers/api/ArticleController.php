@@ -33,9 +33,9 @@ class ArticleController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
-            'price' => 'required|string|max:255',
-            'avatar' => 'nullable|string|max:255',
-            'type' => 'required|string|max:255',
+            'price' => 'required|max:255',
+            'avatar' => 'string|max:2048',
+            'type' => 'required|max:255',
             'id_store' => 'required|exists:stores,id', // Validación adicional para la relación con stores
         ]);
 
@@ -68,9 +68,9 @@ class ArticleController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
-            'price' => 'required|string|max:255',
-            'avatar' => 'nullable|string|max:255',
-            'type' => 'required|string|max:255',
+            'price' => 'required|max:255',
+            'avatar' => 'string|max:2048',
+            'type' => 'required|max:255',
             'id_store' => 'required|exists:stores,id', // Validación para la relación con stores
         ]);
 

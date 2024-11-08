@@ -19,7 +19,8 @@ class TopicController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:30',
+            'name' => 'required|string|max:50',
+            'image' => 'required|url|max:2048',
             'description' => 'required|string|max:200',
 
         ]);
@@ -37,7 +38,8 @@ class TopicController extends Controller
     public function update(Request $request, Topic $topic)
     {
         $request->validate([
-            'name' => 'required|string|max:30',
+            'name' => 'required|string|max:50',
+            'image' => 'required|url|max:2048',
             'description' => 'required|string|max:200',
             
         ]);

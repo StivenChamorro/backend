@@ -195,6 +195,9 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+         //agregar tymon
+         //Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+
     ],
 
     /*

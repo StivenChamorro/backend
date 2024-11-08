@@ -65,17 +65,6 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(Children::class);
     }
 
-    public function roles()
-    {
-        return $this->belongsToMany(Role::class, 'role_user', 'user_id', 'role_id');
-    }
-
-    // Método para verificar si el usuario tiene un rol específico
-    public function hasRole($roleName)
-    {
-        return $this->roles()->where('name', $roleName)->exists();
-    }
-
     // Scopes personalizados
     public function scopeIncluded(Builder $query)
     {

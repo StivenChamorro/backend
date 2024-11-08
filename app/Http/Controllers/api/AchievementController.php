@@ -22,11 +22,12 @@ class AchievementController extends Controller
     {
 
         $request->validate([
-            'name' => '|max:255',
-            'description' => '|max:500',
-            'reward' => '|max:100',
-            'children_id' => '|exists:childrens,id',
-            'level_id' => '|exists:levels,id',
+            'name' => 'max:255',
+            'description' => 'max:500',
+            'reward' => 'max:255',
+            'children_id' => 'exists:childrens,id',
+            'level_id' => 'exists:levels,id',
+            'status' => 'in:blocked,unblocked',
         ]);
 
         $achievement = Achievement::create($request->all());
@@ -50,11 +51,12 @@ class AchievementController extends Controller
     {
         //dd($request->all());
         $request->validate([
-            'name' => 'nullable|string|max:255',
-            'description' => 'nullable|string|max:500',
-            'reward' => 'nullable|integer|max:100',
-            'children_id' => 'nullable|exists:childrens,id',
-            'level_id' => 'nullable|exists:levels,id',
+            'name' => 'max:255',
+            'description' => 'max:500',
+            'reward' => 'max:255',
+            'children_id' => 'exists:childrens,id',
+            'level_id' => 'exists:levels,id',
+            'status' => 'in:blocked,unblocked',
         ]);
 
 

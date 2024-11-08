@@ -21,10 +21,10 @@ class QuestionController extends Controller
     {
         $request->validate([
             'question' => 'required|string|max:200',
-            'answer' => 'required|string|max:200',
             'score' => 'required|integer|max:100',
             'clue' => 'required|string|max:200',
             'correct_answer' => 'required|string|max:100',
+            'level_id' => 'required|exists:levels,id',
         ]);
 
         $question = Question::create($request->all());
@@ -41,10 +41,10 @@ class QuestionController extends Controller
     {
         $request->validate([
             'question' => 'required|string|max:200',
-            'answer' => 'required|string|max:200',
             'score' => 'required|integer|max:100',
             'clue' => 'required|string|max:200',
             'correct_answer' => 'required|string|max:100',
+            'level_id' => 'required|exists:levels,id',
         ]);
 
         $question->update($request->all());

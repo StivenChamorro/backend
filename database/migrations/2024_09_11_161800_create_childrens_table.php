@@ -15,11 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('lastname');
-            $table->string('age');
+            $table->date('birthdate');
             $table->string('nickname');
-            $table->string('relation')->nullable();
-            $table->string('avatar')->nullable();
-            $table->string('gender')->nullable();
+            $table->string('relation');
+            $table->string('avatar')->nullable(); //este campo alamcena la url de la imagen
+            $table->string('gender');
             $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });

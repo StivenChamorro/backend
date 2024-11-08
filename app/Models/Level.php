@@ -14,7 +14,7 @@ class Level extends Model {
 
     /* Con $allowIncluded podemos relaizar querys. en este caso se pueden ver los id de topics y questions de dicho level,
     ya que $allowIncluded me permite anidar los id de topics y questions como FK de level */
-    protected $allowIncluded=['Topic','Question'];
+    protected $allowIncluded=['Topic','Question','Achievements'];
     
     /* Con $allowfilter podemos realizar busquedas especificas de un nivel en especifico. */
     protected $allowFilter = ['id','name','score','question_id','topic_id'];
@@ -28,7 +28,7 @@ class Level extends Model {
     //Con este metodo relacionamos la question(pregunta) y levels(niveles) a nivel de modelo con belongsTo(pertenece a mucho) y la ruta de dicho modelo.
     public function Question()
     {
-        return $this->belongsTo(Question::class);
+        return $this->hasMany(Question::class);
     }
 
     // relacion a nivel de modelos relacion con achievement un nivel tiene muchos logros por eso la funcion esta en plural

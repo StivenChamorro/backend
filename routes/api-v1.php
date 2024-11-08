@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\api\AchievementController;
+use App\Http\Controllers\api\AnswerController;
 use App\Http\Controllers\api\ArticleController;
 use App\Http\Controllers\api\LevelController;
 use App\Http\Controllers\api\QuestionController;
@@ -53,13 +54,6 @@ Route::group([
     Route::post('me', [AuthController::class, 'me'])->name('me');
 });
 
-//RUTAS PARA LOS ROLES
-Route::prefix('roles')->group(function () {
-    Route::post('/assign/{user_id}', [RoleController::class, 'assignRole']); // Asignar un rol
-    Route::post('/remove/{user_id}', [RoleController::class, 'removeRole']); // Quitar un rol
-    Route::get('/user/{user_id}', [RoleController::class, 'getUserRoles']); // Obtener roles de un usuario
-    Route::get('/all', [RoleController::class, 'getAllRoles']); // Obtener todos los roles
-});
 
 // RUTAS_TOPICS (HAIVER VELASCO)
 Route::prefix('topic')->group(function () {
@@ -92,19 +86,19 @@ Route::prefix('question')->group(function () {
 
 //rutas stiven (Childrens y users)
 Route::prefix('children')->group(function () {
-    Route::get('index', [ChildrenController::class, 'index']);
-    Route::post('store', [ChildrenController::class, 'store']);
-    Route::get('show/{children}', [ChildrenController::class, 'show']);
-    Route::put('update/{children}', [ChildrenController::class, 'update']);
-    Route::delete('destroy/{children}', [ChildrenController::class, 'destroy']);
+    Route::get('/index', [ChildrenController::class, 'index']);
+    Route::post('/store', [ChildrenController::class, 'store']);
+    Route::get('/show/{children}', [ChildrenController::class, 'show']);
+    Route::put('/update/{children}', [ChildrenController::class, 'update']);
+    Route::delete('/destroy/{children}', [ChildrenController::class, 'destroy']);
 });
 
 Route::prefix('user')->group(function () {
-    Route::get('index', [UserController::class, 'index']);
-    Route::post('store', [UserController::class, 'store']);
-    Route::get('show/{user}', [UserController::class, 'show']);
-    Route::put('update/{user}', [UserController::class, 'update']);
-    Route::delete('destroy/{user}', [UserController::class, 'destroy']);
+    Route::get('/index', [UserController::class, 'index']);
+    Route::post('/store', [UserController::class, 'store']);
+    Route::get('/show/{user}', [UserController::class, 'show']);
+    Route::put('/update/{user}', [UserController::class, 'update']);
+    Route::delete('/destroy/{user}', [UserController::class, 'destroy']);
 });
 
 //rutas brayan
@@ -152,4 +146,12 @@ Route::prefix('exchanges')->group(function () {
     Route::get('/show/{id}', [ExchangeController::class, 'show']);
     Route::put('/update/{exchange}', [ExchangeController::class, 'update']);
     Route::delete('/delete/{exchange}', [ExchangeController::class, 'destroy']);
+});
+
+Route::prefix('answer')->group(function () {
+    Route::get('/answers', [AnswerController::class, 'index']); // Obtener todas las respuestas de una pregunta
+    Route::post('/answers', [AnswerController::class, 'store']);// Crear una nueva respuesta para una pregunta
+    Route::get('/answers/{id}', [AnswerController::class, 'show']); // Obtener una respuesta específica
+    Route::put('/answers/{id}', [AnswerController::class, 'update']);// Actualizar una respuesta específica
+    Route::delete('/answers/{id}', [AnswerController::class, 'destroy']); // Eliminar una respuesta específica
 });

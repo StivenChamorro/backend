@@ -13,21 +13,22 @@ class Question extends Model
     protected $fillable = ['question', 'answer', 'score', 'clue', 'help', 'correct_answer', 'topic_id'];
 
     // Querys que entran a validacion (Nos trae una relacion anidada que con los ids que tenemos como llave foranea)
-    protected $allowIncluded = ['Topic', 'levels'];
+    protected $allowIncluded = ['levels'];
 
     /* Con $allowfilter podemos realizar busquedas especificas de una pregunta en especifico. */
-    protected $allowFilter = ['id', 'question', 'score','topic_id'];
+    protected $allowFilter = ['id', 'question', 'score','level_id'];
 
     //Con este metodo relacionamos la levels(niveles) y question(pregunta) a nivel de modelo con hasMany(tiene muchos) y la ruta de dicho modelo.
     public function Levels()
     {
-        return $this->hasMany('App\Models\Level');
+        return $this->belongsTo('App\Models\Level');
     }
-    //Con este metodo relacionamos la tabla topic(tema) y question(pregunta) a nivel de modelo con belongsto(pertenece a mucho) y la ruta de dicho modelo.
-    public function Topic()
-    {
-        return $this->belongsTo('App\Models\Topic');
-    }
+
+      // Relación de uno a muchos con las respuestas
+      public function answers()
+      {
+          return $this->hasMany(Answer::class);
+      }
 
     /* SCOPE-INCLUDED PREGUNTAS/QUESTIONS (HAIVER VELASCO)*/
 
