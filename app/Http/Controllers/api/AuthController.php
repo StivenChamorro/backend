@@ -31,7 +31,7 @@ class AuthController extends Controller
         $validator = FacadesValidator::make(request()->all(), [
             'name' => 'required',
             'last_name' => 'required|max:255',
-            'birhtdate' => 'required',
+            'birthdate' => 'required|date|before:today',
             'email' => 'required|email|unique:users',
             'user' => 'required|max:255',
             'password' => 'required|confirmed|min:3',
