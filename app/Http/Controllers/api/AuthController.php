@@ -31,11 +31,10 @@ class AuthController extends Controller
         $validator = FacadesValidator::make(request()->all(), [
             'name' => 'required',
             'last_name' => 'required|max:255',
-            'age' => 'required|max:100',
+            'birhtdate' => 'required',
             'email' => 'required|email|unique:users',
             'user' => 'required|max:255',
             'password' => 'required|confirmed|min:3',
-            'pin' => 'required|max:4',
         ]);
  
         if($validator->fails()){
@@ -45,10 +44,9 @@ class AuthController extends Controller
         $user = new User;
         $user->name = request()->name;
         $user->last_name = request()->last_name;
-        $user->age = request()->age;
+        $user->birthdate = request()->birthdate;
         $user->email = request()->email;
         $user->password = bcrypt(request()->password);
-        $user->pin = request()->pin;
         $user->user = request()->user;
         $user->save();
  
