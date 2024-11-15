@@ -7,8 +7,10 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function index(){
-        $users = User::include();
+    public function 
+    index(){
+        $users = User::all();
+        //$users = User::include()->get();
 
         return response()->json($users);
     }
