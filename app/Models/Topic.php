@@ -11,7 +11,7 @@ class Topic extends Model
     use HasFactory;
 
     //Estos Campos Entran para Asignacion Masiva
-    protected $fillable = ['name', 'description'];
+    protected $fillable = ['name', 'description', 'image'];
 
     /* Con $allowIncluded podemos relaizar querys. en este caso se pueden ver los id de topics y questions de dicho level,
     ya que $allowIncluded me permite anidar los id de topics y questions como FK de level */

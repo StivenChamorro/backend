@@ -4,89 +4,139 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Topic;
-use Cloudinary\Laravel\Facades\Cloudinary; // Asegúrate de usar el alias correcto
-use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary as FacadesCloudinary;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Http\Request;
-
 
 class TopicController extends Controller
 {
     public function index()
     {
         $topics = Topic::all();
-        return response()->json($topics);
+        return response()->json($topics, 200);
     }
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'name' => 'required|string|max:50',
             'description' => 'required|string|max:255',
         ]);
 
-        $image = $request->file('image');
+        try {
+            $image = $request->file('image');
+            $uploadedFile = Cloudinary::upload($image->getRealPath());
+            $imageUrl = $uploadedFile->getSecurePath();
 
-        // Subir la imagen a Cloudinary
-        $uploadedFile = FacadesCloudinary::upload($image->getRealPath());
+            $topic = Topic::create([
+                'name' => $validated['name'],
+                'description' => $validated['description'],
+                'image' => $imageUrl,
+            ]);
 
-        // Obtener la URL segura de la imagen subida
-        $imageUrl = $uploadedFile->getSecurePath();
-
-        $topic = Topic::create([
-            'name' => $request->name,
-            'description' => $request->description,
-            'image' => $imageUrl,
-        ]);
-
-        return response()->json(['message' => 'Topic created successfully!', 'topic' => $topic]);
+            return response()->json([
+                'message' => 'Topic created successfully!',
+                'topic' => $topic,
+            ], 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Error uploading the image or creating the topic.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
 
     public function show($id)
     {
-        $topic = Topic::findOrFail($id);
-        return response()->json(['message' => 'Registro mostrado exitosamente', 'topic' => $topic]);
+        try {
+            $topic = Topic::findOrFail($id);
+            return response()->json([
+                'message' => 'Registro mostrado exitosamente',
+                'topic' => $topic,
+            ], 200);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json([
+                'message' => 'Topic not found.',
+                'error' => $e->getMessage(),
+            ], 404);
+        }
     }
 
-    public function update(Request $request, Topic $topic)
+    public function update(Request $request, $id)
     {
-        $request->validate([
-            'name' => 'required|string|max:50',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // La imagen es opcional
-            'description' => 'required|string|max:200',
-        ]);
+        try {
+            $topic = Topic::findOrFail($id);
 
-        if ($request->hasFile('image')) {
-            if ($topic->image) {
-                // Extraer el `public_id` para eliminar la imagen anterior
-                $publicId = pathinfo(parse_url($topic->image, PHP_URL_PATH), PATHINFO_FILENAME);
-                FacadesCloudinary::destroy($publicId);
+            $validated = $request->validate([
+                'name' => 'required|string|max:50',
+                'description' => 'required|string|max:255',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            ]);
+
+            if ($request->hasFile('image')) {
+                // Delete the old image from Cloudinary if it exists
+                if ($topic->image) {
+                    $publicId = pathinfo(parse_url($topic->image, PHP_URL_PATH), PATHINFO_FILENAME);
+                    Cloudinary::destroy($publicId);
+                }
+
+                $image = $request->file('image');
+                $uploadedFile = Cloudinary::upload($image->getRealPath());
+                $imageUrl = $uploadedFile->getSecurePath();
+            } else {
+                $imageUrl = $topic->image;
             }
 
-            $image = $request->file('image');
-            $uploadedFile = FacadesCloudinary::upload($image->getRealPath());
-            $imageUrl = $uploadedFile->getSecurePath();
-        } else {
-            $imageUrl = $topic->image;
+            $topic->update([
+                'name' => $validated['name'],
+                'description' => $validated['description'],
+                'image' => $imageUrl,
+            ]);
+
+            return response()->json([
+                'message' => 'Topic updated successfully!',
+                'topic' => $topic,
+            ], 200);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json([
+                'message' => 'Topic not found.',
+                'error' => $e->getMessage(),
+            ], 404);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Error updating the topic.',
+                'error' => $e->getMessage(),
+            ], 500);
         }
-
-        $topic->update([
-            'name' => $request->name,
-            'description' => $request->description,
-            'image' => $imageUrl,
-        ]);
-
-        return response()->json(['message' => 'Topic updated successfully!', 'topic' => $topic]);
     }
 
-    public function destroy(Topic $topic)
+    public function destroy($id)
     {
-        if ($topic->image) {
-            $publicId = pathinfo(parse_url($topic->image, PHP_URL_PATH), PATHINFO_FILENAME);
-            FacadesCloudinary::destroy($publicId);
-        }
+        try {
+            $topic = Topic::findOrFail($id);
 
-        $topic->delete();
-        return response()->json(['message' => 'Registro eliminado exitosamente', 'topic' => $topic]);
+            // Delete the associated image from Cloudinary if it exists
+            if ($topic->image) {
+                $publicId = pathinfo(parse_url($topic->image, PHP_URL_PATH), PATHINFO_FILENAME);
+                Cloudinary::destroy($publicId);
+            }
+
+            $topic->delete();
+
+            return response()->json([
+                'message' => 'Registro eliminado exitosamente',
+                'topic' => $topic,
+            ], 200);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json([
+                'message' => 'Topic not found.',
+                'error' => $e->getMessage(),
+            ], 404);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Error deleting the topic.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
 }
