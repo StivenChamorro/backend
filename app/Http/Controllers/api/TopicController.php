@@ -59,7 +59,7 @@ class TopicController extends Controller
         // Validamos los datos de entrada
         $request->validate([
             'name' => 'required|string|max:50',
-            'image' => 'nullable|image|max:2048', // La imagen es opcional para la actualización
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'description' => 'required|string|max:200',
         ]);
 
