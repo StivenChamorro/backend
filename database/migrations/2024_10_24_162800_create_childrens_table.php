@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('relation');
             $table->string('avatar')->nullable(); //este campo alamcena la url de la imagen
             $table->string('gender');
+            $table->foreignId('achievement_id')->references('id')->on('achievements')->onDelete('cascade');
             $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });

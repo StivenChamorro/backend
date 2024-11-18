@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('name');
             $table->string('description');
             $table->integer('reward');
-            $table->foreignId('children_id')->references('id')->on('childrens')->onDelete('cascade');
             $table->foreignId('level_id')->references('id')->on('levels')->onDelete('cascade');
             $table->string('status')->default('blocked');
             $table->timestamps();
