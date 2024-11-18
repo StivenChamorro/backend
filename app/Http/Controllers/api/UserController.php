@@ -65,4 +65,11 @@ class UserController extends Controller
         $user->delete();
         return response()->json($user);
     }
+
+    // Nuevo método para obtener el perfil del usuario autenticado
+    public function profile(Request $request)
+    {
+        $user = $request->user(); // Obtén el usuario autenticado
+        return response()->json($user);
+    }
 }
