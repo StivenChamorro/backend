@@ -5,7 +5,9 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use App\Models\Topic;
 use Cloudinary\Laravel\Facades\Cloudinary; // Asegúrate de usar el alias correcto
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary as FacadesCloudinary;
 use Illuminate\Http\Request;
+
 
 class TopicController extends Controller
 {
@@ -26,7 +28,7 @@ class TopicController extends Controller
         $image = $request->file('image');
 
         // Subir la imagen a Cloudinary
-        $uploadedFile = Cloudinary::upload($image->getRealPath());
+        $uploadedFile = FacadesCloudinary::upload($image->getRealPath());
 
         // Obtener la URL segura de la imagen subida
         $imageUrl = $uploadedFile->getSecurePath();
@@ -58,11 +60,11 @@ class TopicController extends Controller
             if ($topic->image) {
                 // Extraer el `public_id` para eliminar la imagen anterior
                 $publicId = pathinfo(parse_url($topic->image, PHP_URL_PATH), PATHINFO_FILENAME);
-                Cloudinary::destroy($publicId);
+                FacadesCloudinary::destroy($publicId);
             }
 
             $image = $request->file('image');
-            $uploadedFile = Cloudinary::upload($image->getRealPath());
+            $uploadedFile = FacadesCloudinary::upload($image->getRealPath());
             $imageUrl = $uploadedFile->getSecurePath();
         } else {
             $imageUrl = $topic->image;
@@ -81,7 +83,7 @@ class TopicController extends Controller
     {
         if ($topic->image) {
             $publicId = pathinfo(parse_url($topic->image, PHP_URL_PATH), PATHINFO_FILENAME);
-            Cloudinary::destroy($publicId);
+            FacadesCloudinary::destroy($publicId);
         }
 
         $topic->delete();
