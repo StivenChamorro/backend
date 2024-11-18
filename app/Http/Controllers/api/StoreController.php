@@ -63,13 +63,19 @@ class StoreController extends Controller
     public function update(Request $request, Store $store)
     {
         $request->validate([
-            'name' => 'nullable|string|max:255',
+            'name' => 'required|string|max:255', // 'name' es opcional
+            'description' => 'required|string|max:500', // 'description' también es opcional
         ]);
-
-        $store->update($request->only(['name'])); // Solo actualiza el campo 'name'
-
-        return response()->json($store);
+    
+        // Actualiza los campos proporcionados
+        $store->update($request->only(['name', 'description']));
+    
+        return response()->json([
+            'message' => 'Store updated successfully',
+            'store' => $store,
+        ], 200);
     }
+    
 
     /**
      * Elimina el recurso especificado del almacenamiento.
