@@ -45,7 +45,7 @@ class User extends Authenticatable implements JWTSubject
         'email_verified_at' => 'datetime',
     ];
 
-    protected $allowIncluded = ['Children'];
+    protected $allowIncluded = ['Children','Children.Achievements'];
     protected $allowFilter = ['id','name','lastname','age','nickname','relation','avatar','gender','user_id'];
 
     // Implementación JWT
