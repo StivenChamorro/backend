@@ -99,7 +99,7 @@ Route::prefix('user')->group(function () {
     Route::get('/show/{user}', [UserController::class, 'show']);
     Route::put('/update/{user}', [UserController::class, 'update']);
     Route::delete('/destroy/{user}', [UserController::class, 'destroy']);
-    Route::middleware('/profile', [UserController::class, 'profile']);
+    Route::get('/profile', [UserController::class, 'profile']);
 });
 
 //rutas brayan
