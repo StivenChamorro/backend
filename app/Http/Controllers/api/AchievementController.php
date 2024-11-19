@@ -25,7 +25,6 @@ class AchievementController extends Controller
             'name' => 'max:255',
             'description' => 'max:500',
             'reward' => 'max:255',
-            'children_id' => 'exists:childrens,id',
             'level_id' => 'exists:levels,id',
             'status' => 'in:blocked,unblocked',
         ]);
@@ -54,7 +53,6 @@ class AchievementController extends Controller
             'name' => 'max:255',
             'description' => 'max:500',
             'reward' => 'max:255',
-            'children_id' => 'exists:childrens,id',
             'level_id' => 'exists:levels,id',
             'status' => 'in:blocked,unblocked',
         ]);

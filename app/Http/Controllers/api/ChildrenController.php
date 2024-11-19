@@ -30,6 +30,7 @@ class ChildrenController extends Controller
             'avatar',
             'gender' => 'required|max:100',
             'user_id' => 'required|exists:Users,id',
+            'achievement' => 'exists:achievements,id',
         ]);
 
         $children = Children::create($request->all());
@@ -61,6 +62,7 @@ class ChildrenController extends Controller
             'avatar',
             'gender' => 'required|max:100',
             'user_id' => 'required|exists:Users,id',
+            'achievement' => 'exists:achievements,id',
         ]);
 
         $children->update($request->all());

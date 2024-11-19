@@ -11,7 +11,7 @@ class Achievement extends Model
     use HasFactory;
 
 
-    protected $fillable = ['name','description','reward','children_id','level_id'];
+    protected $fillable = ['name','description','reward','level_id'];
 
     protected $allowIncluded = ['Children','Children.User','Children.Exchanges',
     'Children.Exchanges.Image_Users','Children.Exchanges.Article','Children.Exchanges.Article.Store',
@@ -26,9 +26,9 @@ class Achievement extends Model
 //relacion con children
 //un logro pertenece a un solo niño por eso esta en singular
 
-    public function children(){
+    public function childrens(){
 
-        return $this->belongsTo(Children::class);  //belongsTo llama al niño al cual estann relacionados los logros
+        return $this->hasMany(Children::class);  //belongsTo llama al niño al cual estann relacionados los logros
 
     }
 
