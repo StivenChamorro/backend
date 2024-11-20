@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('description');
             $table->double('price');
             $table->string('avatar');  //este campo almacena la url de la imagen
-            $table->string('type');
+            $table->string('type')->default('normal');
             $table->foreignId('store_id')->references('id')->on('stores')->onDelete('cascade');
             $table->timestamps();
         });
