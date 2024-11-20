@@ -26,7 +26,7 @@ class ArticleController extends Controller
             'price' => 'required|numeric',
             'avatar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'type' => 'required|string|max:50',
-            'id_store' => 'required|exists:stores,id', // Validación de relación con stores
+            'store_id' => 'required|exists:stores,id', // Validación de relación con stores
         ]);
 
         try {
@@ -40,7 +40,7 @@ class ArticleController extends Controller
                 'price' => $validated['price'],
                 'avatar' => $imageUrl,
                 'type' => $validated['type'],
-                'id_store' => $validated['id_store'],
+                'store_id' => $validated['store_id'],
             ]);
 
             return response()->json([
@@ -82,7 +82,7 @@ class ArticleController extends Controller
                 'price' => 'required|numeric',
                 'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
                 'type' => 'required|string|max:50',
-                'id_store' => 'required|exists:stores,id',
+                'store_id' => 'required|exists:stores,id',
             ]);
 
             if ($request->hasFile('avatar')) {
@@ -104,7 +104,7 @@ class ArticleController extends Controller
                 'price' => $validated['price'],
                 'avatar' => $imageUrl,
                 'type' => $validated['type'],
-                'id_store' => $validated['id_store'],
+                'store_id' => $validated['store_id'],
             ]);
 
             return response()->json([
