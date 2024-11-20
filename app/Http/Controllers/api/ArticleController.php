@@ -4,90 +4,152 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Article;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Http\Request;
 
 class ArticleController extends Controller
 {
-     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $articles = Article::included() // Incluye relaciones según el parámetro 'included'
-                            ->filter()   // Aplica filtros según el parámetro 'filter'
-                            ->sort()     // Ordena los resultados según el parámetro 'sort'
-                            ->getOrPaginate(); // Pagina los resultados si se proporciona el parámetro 'perPage'
-        return response()->json($articles);
+            ->filter()   // Aplica filtros según el parámetro 'filter'
+            ->sort()     // Ordena los resultados según el parámetro 'sort'
+            ->get();     // Obtiene todos los registros
+        return response()->json($articles, 200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'description' => 'required|string',
-            'price' => 'required|max:255',
-            'avatar' => 'string|max:2048',
-            'type' => 'required|max:255',
-            'id_store' => 'required|exists:stores,id', // Validación adicional para la relación con stores
+            'description' => 'required|string|max:500',
+            'price' => 'required|numeric',
+            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'type' => 'required|string|max:50',
+            'id_store' => 'required|exists:stores,id', // Validación de relación con stores
         ]);
 
-        $article = Article::create($request->all());
+        try {
+            $image = $request->file('avatar');
+            $uploadedFile = Cloudinary::upload($image->getRealPath());
+            $imageUrl = $uploadedFile->getSecurePath();
 
-        return response()->json($article, 201); // Devuelve el artículo creado y un código 201 (Created)
+            $article = Article::create([
+                'name' => $validated['name'],
+                'description' => $validated['description'],
+                'price' => $validated['price'],
+                'avatar' => $imageUrl,
+                'type' => $validated['type'],
+                'id_store' => $validated['id_store'],
+            ]);
+
+            return response()->json([
+                'message' => 'Article created successfully!',
+                'article' => $article,
+            ], 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Error uploading the image or creating the article.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Article  $article
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
-        $article = Article::included()->findOrFail($id);
-        return response()->json($article);
+        try {
+            $article = Article::included()->findOrFail($id);
+            return response()->json([
+                'message' => 'Article retrieved successfully!',
+                'article' => $article,
+            ], 200);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json([
+                'message' => 'Article not found.',
+                'error' => $e->getMessage(),
+            ], 404);
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Article  $article
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Article $article)
+    public function update(Request $request, $id)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'required|string',
-            'price' => 'required|max:255',
-            'avatar' => 'string|max:2048',
-            'type' => 'required|max:255',
-            'id_store' => 'required|exists:stores,id', // Validación para la relación con stores
-        ]);
+        try {
+            $article = Article::findOrFail($id);
 
-        $article->update($request->all());
+            $validated = $request->validate([
+                'name' => 'required|string|max:255',
+                'description' => 'required|string|max:500',
+                'price' => 'required|numeric',
+                'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'type' => 'required|string|max:50',
+                'id_store' => 'required|exists:stores,id',
+            ]);
 
-        return response()->json($article); // Devuelve el artículo actualizado
+            if ($request->hasFile('avatar')) {
+                if ($article->avatar) {
+                    $publicId = pathinfo(parse_url($article->avatar, PHP_URL_PATH), PATHINFO_FILENAME);
+                    Cloudinary::destroy($publicId);
+                }
+
+                $image = $request->file('avatar');
+                $uploadedFile = Cloudinary::upload($image->getRealPath());
+                $imageUrl = $uploadedFile->getSecurePath();
+            } else {
+                $imageUrl = $article->avatar;
+            }
+
+            $article->update([
+                'name' => $validated['name'],
+                'description' => $validated['description'],
+                'price' => $validated['price'],
+                'avatar' => $imageUrl,
+                'type' => $validated['type'],
+                'id_store' => $validated['id_store'],
+            ]);
+
+            return response()->json([
+                'message' => 'Article updated successfully!',
+                'article' => $article,
+            ], 200);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json([
+                'message' => 'Article not found.',
+                'error' => $e->getMessage(),
+            ], 404);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Error updating the article.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Article  $article
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Article $article)
+    public function destroy($id)
     {
-        $article->delete();
-        return response()->json(['message' => 'Eliminado Correctamente']);
+        try {
+            $article = Article::findOrFail($id);
+
+            if ($article->avatar) {
+                $publicId = pathinfo(parse_url($article->avatar, PHP_URL_PATH), PATHINFO_FILENAME);
+                Cloudinary::destroy($publicId);
+            }
+
+            $article->delete();
+
+            return response()->json([
+                'message' => 'Article deleted successfully!',
+                'article' => $article,
+            ], 200);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json([
+                'message' => 'Article not found.',
+                'error' => $e->getMessage(),
+            ], 404);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Error deleting the article.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
 }
