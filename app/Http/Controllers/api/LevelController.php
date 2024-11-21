@@ -43,12 +43,17 @@ class LevelController extends Controller
             'topic_id' => 'required|exists:topics,id',
         ]);
         $level->update($request->all());
-        return response()->json(['message' => "el registro se actualizo exitosamente", $level]);
+        return response()->json([
+            'message' => "el registro se actualizo exitosamente", 
+            'level' => $level
+        ]);
     }
     /* Con el metodo DESTROY eliminamos cualquier level/nivel especifico alojado en nuestra bd. */
     public function destroy(Level $level)
     {
         $level->delete();
-        return response()->json(['message' => "el registro se elimino exitosamente", $level]);
+        return response()->json(['message' => "el registro se elimino exitosamente", 
+        'level' => $level
+    ]);
     }
 }
