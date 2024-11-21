@@ -150,9 +150,9 @@ Route::prefix('exchanges')->group(function () {
 });
 
 Route::prefix('answer')->group(function () {
-    Route::get('/answers', [AnswerController::class, 'index']); // Obtener todas las respuestas de una pregunta
-    Route::post('/answers', [AnswerController::class, 'store']);// Crear una nueva respuesta para una pregunta
-    Route::get('/answers/{id}', [AnswerController::class, 'show']); // Obtener una respuesta específica
-    Route::put('/answers/{id}', [AnswerController::class, 'update']);// Actualizar una respuesta específica
-    Route::delete('/answers/{id}', [AnswerController::class, 'destroy']); // Eliminar una respuesta específica
+    Route::get('/index', [AnswerController::class, 'index']); // Obtener todas las respuestas de una pregunta
+    Route::post('/store', [AnswerController::class, 'store']);// Crear una nueva respuesta para una pregunta
+    Route::get('/show/{id}', [AnswerController::class, 'show']); // Obtener una respuesta específica
+    Route::put('/update/{id}', [AnswerController::class, 'update']);// Actualizar una respuesta específica
+    Route::delete('/delete/{id}', [AnswerController::class, 'destroy']); // Eliminar una respuesta específica
 });
