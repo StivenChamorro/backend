@@ -28,7 +28,13 @@ class QuestionController extends Controller
         ]);
         
         try {
-            $question = Question::create($validated);
+            $question = Question::create([
+                'question' => $validated['question'],
+                'score' => $validated['score'],
+                'clue' => $validated['clue'],
+                'correct_answer' => $validated['correct_answer'],
+                'level_id' => $validated['level_id'],
+            ]);
             return response()->json([
                 'message' => "Registro Creado Exitosamente", 
                 'question' => $question
