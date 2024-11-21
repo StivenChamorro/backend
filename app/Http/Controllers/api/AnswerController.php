@@ -18,19 +18,20 @@ class AnswerController extends Controller
     }
 
     // Crear una nueva respuesta para una pregunta específica
-    public function store(Request $request, $questionId)
+    public function store(Request $request)
     {
         // Validación de datos
-        $request->validate([
+        $validated = $request->validate([
             'answer' => 'required|string',
             'option' => 'required|in:option1,option2,option3,option4',
+            'question_id' => 'required|exists:questions,id'
         ]);
 
         // Crear una nueva respuesta
         $answer = Answer::create([
-            'answer' => $request->input('answer'),
-            'option' => $request->input('option'),
-            'question_id' => $questionId,
+            'answer' => $validated['answer'],
+            'option' =>  $validated['option'],
+            'question_id' =>  $validated['question_id'],
         ]);
 
         return response()->json($answer, 201);
