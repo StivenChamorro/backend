@@ -9,10 +9,10 @@ use Illuminate\Http\Request;
 class AnswerController extends Controller
 {
     // Mostrar todas las respuestas de una pregunta
-    public function index($questionId)
+    public function index()
     {
         // Obtener las respuestas de la pregunta específica
-        $answers = Answer::where('question_id', $questionId)->get();
+        $answers = Answer::include()->get();
 
         return response()->json($answers);
     }
