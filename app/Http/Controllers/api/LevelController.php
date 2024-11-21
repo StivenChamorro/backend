@@ -30,7 +30,9 @@ class LevelController extends Controller
     public function show($id)
     {
         $level = Level::findOrFail($id);
-        return response()->json(['message' => "el registro se mostro exitosamente", $level]);
+        return response()->json([
+            'message' => "el registro se mostro exitosamente",
+            'level' => $level]);
     }
     /* En el metodo UPDATE es donde actualizamos el level/nivel especifico alojado en nuestra bd. */
     public function update(Request $request, Level $level)
