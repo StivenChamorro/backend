@@ -28,13 +28,19 @@ class QuestionController extends Controller
         ]);
 
         $question = Question::create($request->all());
-        return response()->json(['message' => "Registro Creado Exitosamente", $question]);
+        return response()->json([
+            'message' => "Registro Creado Exitosamente", 
+            'question' => $question
+        ]);
     }
     /* En el metodo SHOW es por donde vamos a mostrar un questions/preguntas especifico alojado en nuestra bd. */
     public function show($id)
     {
         $question = Question::findOrFail($id);
-        return response()->json(['message' => "Registgro Enseñado Exitosamente", $question]);
+        return response()->json([
+            'message' => "Registgro Enseñado Exitosamente", 
+            'question' => $question
+        ]);
     }
     /* En el metodo UPDATE es donde actualizamos el questions/preguntas especifico alojado en nuestra bd. */
     public function update(Request $request, Question $question)
@@ -48,12 +54,18 @@ class QuestionController extends Controller
         ]);
 
         $question->update($request->all());
-        return response()->json(['message' => "Registro Actualizado Exitosamente", $question]);
+        return response()->json([
+            'message' => "Registro Actualizado Exitosamente", 
+            'question' => $question
+        ]);
     }
     /* Con el metodo DESTROY eliminamos cualquier questions/preguntas especifico alojado en nuestra bd. */
     public function destroy(Question $question)
     {
         $question->delete();
-        return response()->json(['message' => "Registro Elimiinado Exitosamente", $question]);
+        return response()->json([
+            'message' => "Registro Elimiinado Exitosamente", 
+            'question' => $question
+        ]);
     }
 }
