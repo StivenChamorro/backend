@@ -10,7 +10,7 @@ class Question extends Model
 {
     use HasFactory;
     //Estos Campos Entran para Asignacion Masiva
-    protected $fillable = ['question', 'answer', 'score', 'clue', 'help', 'correct_answer', 'topic_id'];
+    protected $fillable = ['question', 'score', 'clue', 'correct_answer', 'level_id'];
 
     // Querys que entran a validacion (Nos trae una relacion anidada que con los ids que tenemos como llave foranea)
     protected $allowIncluded = ['levels'];
