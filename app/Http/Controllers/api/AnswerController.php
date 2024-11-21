@@ -12,7 +12,7 @@ class AnswerController extends Controller
     public function index()
     {
         // Obtener las respuestas de la pregunta específica
-        $answers = Answer::include()->get();
+        $answers = Answer::with('question')->get();
 
         return response()->json($answers);
     }
