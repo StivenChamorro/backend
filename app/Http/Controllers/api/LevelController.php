@@ -39,7 +39,6 @@ class LevelController extends Controller
             'name' => 'required|string|max:30',
             'score' => 'required|integer|max:255',
             'topic_id' => 'required|exists:topics,id',
-            'question_id' => 'required|exists:questions,id',
         ]);
         $level->update($request->all());
         return response()->json(['message' => "el registro se actualizo exitosamente", $level]);
