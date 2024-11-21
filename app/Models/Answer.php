@@ -16,59 +16,47 @@ class Answer extends Model
         return $this->belongsTo(Question::class);
     }
 
-    // Estos campos entran para asignación masiva
+    // Estos campos son asignables masivamente
     protected $fillable = ['answer', 'option', 'question_id'];
 
-    // Querys que entran para validación (Nos trae una relación anidada que con los ids que tenemos como llave foránea)
+    // Relaciones permitidas para incluir
     protected $allowIncluded = ['question'];
 
-    // Con $allowFilter podemos realizar búsquedas específicas de una respuesta
+    // Filtros permitidos
     protected $allowFilter = ['id', 'answer', 'option', 'question_id'];
-
 
     /**
      * Scope para incluir relaciones adicionales (si se especifica en la solicitud).
      */
     public function scopeIncluded(Builder $query)
     {
-        // Verificamos si hay relaciones solicitadas en la solicitud
         if (empty($this->allowIncluded) || empty(request('included'))) {
-            return;
+            return $query;
         }
 
-        $relations = explode(',', request('included'));
+        $relations = array_intersect(
+            explode(',', request('included')),
+            $this->allowIncluded
+        );
 
-        $allowIncluded = collect($this->allowIncluded);
-
-        // Comprobamos que las relaciones solicitadas sean válidas
-        foreach ($relations as $key => $relationship) {
-            if (!$allowIncluded->contains($relationship)) {
-                unset($relations[$key]);
-            }
-        }
-
-        // Cargamos las relaciones válidas
-        $query->with($relations);
+        return $query->with($relations);
     }
 
     /**
-     * Scope para aplicar filtros (por ejemplo, para buscar respuestas específicas).
+     * Scope para aplicar filtros específicos.
      */
     public function scopeFilter(Builder $query)
     {
-        // Verificamos si hay filtros solicitados
         if (empty($this->allowFilter) || empty(request('filter'))) {
-            return;
+            return $query;
         }
 
-        $filters = request('filter');
-        $allowFilter = collect($this->allowFilter);
-
-        // Aplicamos cada filtro que está permitido
-        foreach ($filters as $filter => $value) {
-            if ($allowFilter->contains($filter)) {
+        foreach (request('filter') as $filter => $value) {
+            if (in_array($filter, $this->allowFilter)) {
                 $query->where($filter, 'LIKE', '%' . $value . '%');
             }
         }
+
+        return $query;
     }
 }

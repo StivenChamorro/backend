@@ -13,6 +13,7 @@ class AnswerController extends Controller
     {
         // Obtener las respuestas de la pregunta específica
         $answers = Answer::where('question_id', $questionId)->get();
+
         return response()->json($answers);
     }
 
@@ -22,23 +23,24 @@ class AnswerController extends Controller
         // Validación de datos
         $request->validate([
             'answer' => 'required|string',
-            'option' => 'required|in:option1,option2,option3,option4', // Validar opción
+            'option' => 'required|in:option1,option2,option3,option4',
         ]);
 
         // Crear una nueva respuesta
         $answer = Answer::create([
             'answer' => $request->input('answer'),
             'option' => $request->input('option'),
-            'question_id' => $questionId
+            'question_id' => $questionId,
         ]);
 
-        return response()->json($answer, 201); // Retorna la respuesta recién creada
+        return response()->json($answer, 201);
     }
 
     // Mostrar una respuesta específica
     public function show($id)
     {
         $answer = Answer::findOrFail($id);
+
         return response()->json($answer);
     }
 
@@ -51,10 +53,8 @@ class AnswerController extends Controller
         ]);
 
         $answer = Answer::findOrFail($id);
-        $answer->update([
-            'answer' => $request->input('answer'),
-            'option' => $request->input('option'),
-        ]);
+
+        $answer->update($request->only(['answer', 'option']));
 
         return response()->json($answer);
     }
