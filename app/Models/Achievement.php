@@ -11,7 +11,7 @@ class Achievement extends Model
     use HasFactory;
 
 
-    protected $fillable = ['name','description','reward','level_id'];
+    protected $fillable = ['name','description','reward','level_id','status'];
 
     protected $allowIncluded = ['Children','Children.User','Children.Exchanges',
     'Children.Exchanges.Image_Users','Children.Exchanges.Article','Children.Exchanges.Article.Store',
