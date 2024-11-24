@@ -1,67 +1,94 @@
 <?php
 
 namespace App\Http\Controllers\api;
+
 use App\Http\Controllers\Controller;
 use App\Models\Image_User;
 use Illuminate\Http\Request;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class ImageUserController extends Controller
-
 {
-    //
     public function store(Request $request)
     {
-
         $request->validate([
-            'exchange_id' => '|exists:exchanges,id',
-
+            'exchange_id' => 'nullable|exists:exchanges,id',
+            'url_imagen' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $image_user = Image_User::create($request->all());
+        try {
+            // Subir imagen a Cloudinary
+            $uploadedFile = Cloudinary::upload($request->file('url_imagen')->getRealPath());
+            $imageUrl = $uploadedFile->getSecurePath();
 
-        return response()->json($image_user);
+            // Crear registro en la base de datos con la URL de Cloudinary
+            $image_user = Image_User::create([
+                'exchange_id' => $request->exchange_id,
+                'url_imagen' => $imageUrl,
+            ]);
+
+            return response()->json([
+                'message' => 'Image_User created successfully!',
+                'image_user' => $image_user,
+            ], 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Error uploading image.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
 
     public function index()
     {
-        $image_users = Image_User::all();
-        $image_users = Image_User::included()->get();
-        $image_users = Image_User::included()->filter()->get();
-        //$categories=Category::included()->filter()->sort()->get();
-        //$categories=Category::included()->filter()->sort()->getOrPaginate();
+        $image_users = Image_User::all(); // Puedes agregar filtros o includes si es necesario
         return response()->json($image_users);
     }
 
-    public function show($id) //si se pasa $id se utiliza la comentada
+    public function show($id)
     {
-
         $image_user = Image_User::findOrFail($id);
-        // $category = Category::with(['posts.user'])->findOrFail($id);
-        // $category = Category::with(['posts'])->findOrFail($id);
-        // $category = Category::included();
-        // $category = Category::included()->findOrFail($id);
         return response()->json($image_user);
-        //http://api.codersfree1.test/v1/categories/1/?included=posts.user
-
     }
 
     public function update(Request $request, Image_User $imageUser)
     {
         $request->validate([
-            'exchange_id' => '|exists:exchanges,id',
+            'exchange_id' => 'nullable|exists:exchanges,id',
+            'url_imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $imageUser->update($request->all());
+        try {
+            $data = $request->only(['exchange_id']);
 
-        return response()->json(['message'=>"el registro se actualizo exitosamente", 'image_user'=>$imageUser]);
+            // Subir imagen a Cloudinary si se envió una nueva imagen
+            if ($request->hasFile('url_imagen')) {
+                $uploadedFile = Cloudinary::upload($request->file('url_imagen')->getRealPath());
+                $imageUrl = $uploadedFile->getSecurePath();
+                $data['url_imagen'] = $imageUrl;
+            }
+
+            // Actualizar registro en la base de datos
+            $imageUser->update($data);
+
+            return response()->json([
+                'message' => 'Image_User updated successfully!',
+                'image_user' => $imageUser,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Error updating image.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
 
     public function destroy(Image_User $imageUser)
     {
         $imageUser->delete();
-        return response()->json(['message'=>"el registro se elimino exitosamente", $imageUser]);
+        return response()->json([
+            'message' => 'Image_User deleted successfully!',
+            'image_user' => $imageUser,
+        ]);
     }
-
 }
-
-

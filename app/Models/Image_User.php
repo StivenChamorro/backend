@@ -10,7 +10,7 @@ class Image_User extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['image','exchange_id'];
+    protected $fillable = ['url_image','exchange_id'];
 
     protected $allowIncluded = ['Exchange','Exchange.Article','Exchange.Article.Store','Exchange.Children','Exchange.Children.User'];
 

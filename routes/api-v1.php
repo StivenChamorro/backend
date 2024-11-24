@@ -113,14 +113,13 @@ Route::prefix('imageUsers')->group(function () {
 });
 
 
-Route::prefix('achievement')->group(function () {
-    Route::get('/index',[AchievementController::class, 'index']);
-    Route::post('/store',[AchievementController::class, 'store']);
-    Route::get('/show/{id}',[AchievementController::class,'show']);
-    Route::put('/update/{achievement}',[AchievementController::class,'update']);
-    Route::delete('/destroy/{achievement}',[AchievementController::class,'destroy']);
-
-});
+//Route::prefix('achievement')->group(function () {
+//    Route::get('/index',[AchievementController::class, 'index']);
+//    Route::post('/store',[AchievementController::class, 'store']);
+//    Route::get('/show/{id}',[AchievementController::class,'show']);
+//    Route::put('/update/{achievement}',[AchievementController::class,'update']);
+//    Route::delete('/destroy/{achievement}',[AchievementController::class,'destroy']);
+//});
 
 // Rutas para StoreController
 Route::prefix('stores')->group(function () {

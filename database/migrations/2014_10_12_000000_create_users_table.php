@@ -13,6 +13,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('last_name');
+            $table->string('pic_profile')->nullable();//aqui se almacenará la foto de perfil
             $table->date('birthdate');
             $table->string('email')->unique();
             $table->string('user')->unique()->nullable();
