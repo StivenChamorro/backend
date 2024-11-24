@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Children;
+use App\Models\User;
 use App\Models\Level;
 use App\Models\LevelCompletion;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
@@ -208,5 +209,28 @@ class ChildrenController extends Controller
         ], 500);
     }
 }
+
+//cambiar de cuenta de niño
+public function findByNickname(Request $request)
+{
+    $request->validate([
+        'nickname' => 'required|string',
+    ]);
+
+    $user = Auth::user();
+
+    if (!$user) {
+        return response()->json(['message' => 'Unauthorized'], 401);
+    }
+
+    $child = $user->Childrens()->where('nickname', $request->nickname)->first();
+
+    if (!$child) {
+        return response()->json(['message' => 'Child not found'], 404);
+    }
+
+    return response()->json($child, 200);
+}
+
 
 }
