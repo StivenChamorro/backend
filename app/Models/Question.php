@@ -10,22 +10,22 @@ class Question extends Model
 {
     use HasFactory;
     //Estos Campos Entran para Asignacion Masiva
-    protected $fillable = ['question', 'score', 'clue', 'correct_answer', 'level_id'];
+    protected $fillable = ['question', 'score','correct_answer', 'clue', 'level_id'];
 
     // Querys que entran a validacion (Nos trae una relacion anidada que con los ids que tenemos como llave foranea)
-    protected $allowIncluded = ['levels'];
+    protected $allowIncluded = ['Level','Level.Topic','Answers'];
 
     /* Con $allowfilter podemos realizar busquedas especificas de una pregunta en especifico. */
     protected $allowFilter = ['id', 'question', 'score','level_id'];
 
     //Con este metodo relacionamos la levels(niveles) y question(pregunta) a nivel de modelo con hasMany(tiene muchos) y la ruta de dicho modelo.
-    public function Levels()
+    public function Level()
     {
-        return $this->belongsTo('App\Models\Level');
+        return $this->belongsTo(level::class);
     }
 
       // Relación de uno a muchos con las respuestas
-      public function answers()
+      public function Answers()
       {
           return $this->hasMany(Answer::class);
       }

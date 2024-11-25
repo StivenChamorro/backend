@@ -23,8 +23,13 @@ class User extends Authenticatable implements JWTSubject
      */
     protected $fillable = [
         'name',
+        'last_name',
+        'pic_profile',
+        'birthdate',
         'email',
+        'avatar',
         'password',
+        'role',
     ];
 
     /**
@@ -46,8 +51,8 @@ class User extends Authenticatable implements JWTSubject
         'email_verified_at' => 'datetime',
     ];
 
-    protected $allowIncluded = ['Children','Children.Achievements'];
-    protected $allowFilter = ['id','name','lastname','age','nickname','relation','avatar','gender','user_id'];
+    protected $allowIncluded = ['Childrens','Childrens.Levels'];
+    protected $allowFilter = ['id','name','lastname','pic_profile','birthdate','email','avatar','password','role'];
 
     // Implementación JWT
     public function getJWTIdentifier()

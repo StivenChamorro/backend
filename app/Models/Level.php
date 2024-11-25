@@ -10,14 +10,14 @@ class Level extends Model {
 
 
     //Estos Campos Entran para Asignacion Masiva
-    protected $fillable = ['name', 'level', 'help', 'score', 'image', 'question_id', 'topic_id'];
+    protected $fillable = ['name', 'score','topic_id'];
 
     /* Con $allowIncluded podemos relaizar querys. en este caso se pueden ver los id de topics y questions de dicho level,
     ya que $allowIncluded me permite anidar los id de topics y questions como FK de level */
-    protected $allowIncluded=['Topic','Question','Achievements'];
+    protected $allowIncluded=['Topic','Questions','Childrens','Childrens.Users'];
     
     /* Con $allowfilter podemos realizar busquedas especificas de un nivel en especifico. */
-    protected $allowFilter = ['id','name','score','question_id','topic_id'];
+    protected $allowFilter = ['id','name','score','topic_id'];
 
 
     //Con este metodo relacionamos la topic(tema) y levels(niveles) a nivel de modelo con belongsTo(pertenece a mucho) y la ruta de dicho modelo.
@@ -26,16 +26,16 @@ class Level extends Model {
         return $this->belongsTo(Topic::class);
     }
     //Con este metodo relacionamos la question(pregunta) y levels(niveles) a nivel de modelo con belongsTo(pertenece a mucho) y la ruta de dicho modelo.
-    public function Question()
+    public function Questions()
     {
         return $this->hasMany(Question::class);
     }
 
     // relacion a nivel de modelos relacion con achievement un nivel tiene muchos logros por eso la funcion esta en plural
 
-    public function Achievements(){
+    public function Childrens(){
 
-        return $this->hasMany(Achievement::class);
+        return $this->belongsToMany(Children::class);
 
     }
 

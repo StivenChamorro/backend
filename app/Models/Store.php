@@ -10,11 +10,13 @@ class Store extends Model
 {
     protected $fillable = ['name', 'description'];
     protected $table = 'stores';
+    protected $allowIncluded = ['Articles', 'Articles.Exchanges','Articles.Exchanges.Image_users']; // Relaciones permitidas para inclusión
+    protected $allowFilter = ['id', 'name', 'description'];
 
     // Relación uno a muchos con Articles
-    public function articles(): HasMany
+    public function Articles(): HasMany
     {
-        return $this->hasMany(Article::class, 'store_id');
+        return $this->hasMany(Article::class);
     }
 
     // Scope para incluir relaciones

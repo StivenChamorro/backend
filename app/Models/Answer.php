@@ -11,7 +11,7 @@ class Answer extends Model
     use HasFactory;
 
     // Relación con la pregunta (question_id)
-    public function question()
+    public function Question()
     {
         return $this->belongsTo(Question::class);
     }
@@ -20,7 +20,7 @@ class Answer extends Model
     protected $fillable = ['answer', 'option', 'question_id'];
 
     // Relaciones permitidas para incluir
-    protected $allowIncluded = ['question'];
+    protected $allowIncluded = ['Question','Question.Levels','Question.Levels.Topic'];
 
     // Filtros permitidos
     protected $allowFilter = ['id', 'answer', 'option', 'question_id'];

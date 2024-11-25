@@ -17,16 +17,20 @@ public function User()
     return $this->belongsTo(User::class); //belongsTo se usa para relacionar y obtener el inverso de una relacion uno a muchos
     }
 
+
     public function Exchanges()
     {
     return $this->hasMany(Exchange::class); //belongsTo se usa para relacionar y obtener el inverso de una relacion uno a muchos
     }
 
-
-    protected $fillable = ['name', 'lastname', 'birthdate', 'nickname', 'relation', 'avatar', 'gender', 'user_id']; //Campos que se van a asignacion masiva:
+    public function Levels(){
+        return $this->belongsToMany(level::class); //has many llama a todos lo logros que tiene relacionado el niño
+     }
+  
+    protected $fillable = ['name', 'lastname', 'birthdate', 'nickname', 'relation', 'avatar', 'gender','diamonds', 'user_id']; //Campos que se van a asignacion masiva:
     protected $allowIncluded = ['User','Exchanges','Exchanges.Image_Users','Exchanges.Article','Exchanges.Article.Store',
-    'Achievement','Achievement.Level','Achievement.Level.Topic','Achievement.Level.Question']; //las posibles Querys que se pueden realizar
-    protected $allowFilter = ['id','name','lastname','age','nickname','relation','avatar','gender','user_id','children_id',];
+    'Levels','Levels.Topic','Levels.Topic.Question']; //las posibles Querys que se pueden realizar
+    protected $allowFilter = ['id','name','lastname','age','nickname','relation','avatar','gender','diamonds','user_id','children_id',];
  //relaciones a nivel de modelos
  // Un niño pertenece a un solo usuario
  // la clase esta llamada en singular porque un niño pertenece a un solo ususario
@@ -34,9 +38,6 @@ public function User()
  //relacion con logros
  //un niño tiene muchos logros por eso la fucnion esta nombrada en plural
 
-   public function Achievement(){
-      return $this->belongsTo(Achievement::class); //has many llama a todos lo logros que tiene relacionado el niño
-   }
 
     /////////////////////////////////////////////////////////////////////////////
     public function scopeIncluded(Builder $query)

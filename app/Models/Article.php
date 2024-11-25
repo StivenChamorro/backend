@@ -9,19 +9,19 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Article extends Model
 {
-    protected $fillable = ['name', 'description', 'price', 'avatar', 'store_id'];
+    protected $fillable = ['name', 'description', 'price', 'avatar','type', 'store_id'];
     protected $table = 'articles';
 
-    protected $allowIncluded = ['store', 'exchanges']; // Relaciones permitidas para inclusión
+    protected $allowIncluded = ['Store', 'Exchanges','Exchanges.Image_users']; // Relaciones permitidas para inclusión
     protected $allowFilter = ['id', 'name', 'description', 'price']; // Campos permitidos para filtrado
     protected $allowSort = ['id', 'name', 'price']; // Campos permitidos para ordenamiento
 
-    public function store(): BelongsTo
+    public function Store(): BelongsTo
     {
         return $this->belongsTo(Store::class, 'store_id');
     }
 
-    public function exchanges(): HasMany
+    public function Exchanges(): HasMany
     {
         return $this->hasMany(Exchange::class, 'article_id');
     }
