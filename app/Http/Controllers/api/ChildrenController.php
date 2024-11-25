@@ -76,7 +76,7 @@ class ChildrenController extends Controller
     public function show($id)
     {
         try {
-            $children = Children::findOrFail($id);
+            $children = Children::with('User')->findOrFail($id);
             return response()->json([
                 'message' => 'Child retrieved successfully!',
                 'children' => $children,

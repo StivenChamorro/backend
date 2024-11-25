@@ -14,7 +14,7 @@ class Children extends Model
 
 public function User()
     {
-    return $this->belongsTo(User::class); //belongsTo se usa para relacionar y obtener el inverso de una relacion uno a muchos
+    return $this->belongsTo(User::class, 'user_id', 'id'); //belongsTo se usa para relacionar y obtener el inverso de una relacion uno a muchos
     }
 
     public function Exchanges()
