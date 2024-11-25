@@ -29,6 +29,7 @@ class ChildrenController extends Controller
             'nickname' => 'required|max:255',
             'relation' => 'required|max:255',
             'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'diamonds' => 'required|max:100',
             'gender' => 'required|max:100',
         ]);
     
@@ -58,6 +59,7 @@ class ChildrenController extends Controller
                 'relation' => $request->relation,
                 'avatar' => $avatarUrl,
                 'gender' => $request->gender,
+                'diamonds' => $request->diamonds,
                 'user_id' => $user->id, // Asociar automáticamente al usuario autenticado
             ]);
     
@@ -102,6 +104,7 @@ class ChildrenController extends Controller
                 'relation' => 'nullable|max:255',
                 'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
                 'gender' => 'nullable|max:100',
+                'diamonds' => 'nullable|max:100',
                 'user_id' => 'nullable|exists:users,id',
             ]);
 

@@ -18,8 +18,8 @@ class TopicController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'name' => 'required|string|max:50',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'description' => 'required|string|max:255',
         ]);
 
@@ -71,8 +71,8 @@ class TopicController extends Controller
         // Validar los campos de la solicitud
         $validated = $request->validate([
             'name' => 'required|string|max:50',
-            'description' => 'required|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validar imagen si existe
+            'description' => 'required|string|max:255',
         ]);
 
         // Si hay una nueva imagen
@@ -95,8 +95,9 @@ class TopicController extends Controller
         // Actualizar el tema con los nuevos valores
         $topic->update([
             'name' => $validated['name'],
-            'description' => $validated['description'],
             'image' => $imageUrl, // Asignar la nueva URL de la imagen (o la antigua)
+            'description' => $validated['description'],
+            
         ]);
 
         // Responder con un mensaje de éxito

@@ -22,8 +22,8 @@ class QuestionController extends Controller
         $validated = $request->validate([
             'question' => 'required|string|max:200',
             'score' => 'required|integer|max:100',
-            'clue' => 'required|string|max:200',
             'correct_answer' => 'required|string|max:100',
+            'clue' => 'required|string|max:200',
             'level_id' => 'required|exists:levels,id',
         ]);
         
@@ -31,8 +31,8 @@ class QuestionController extends Controller
             $question = Question::create([
                 'question' => $validated['question'],
                 'score' => $validated['score'],
-                'clue' => $validated['clue'],
                 'correct_answer' => $validated['correct_answer'],
+                'clue' => $validated['clue'],
                 'level_id' => $validated['level_id'],
             ]);
             return response()->json([
@@ -62,8 +62,8 @@ class QuestionController extends Controller
         $request->validate([
             'question' => 'required|string|max:200',
             'score' => 'required|integer|max:100',
-            'clue' => 'required|string|max:200',
             'correct_answer' => 'required|string|max:100',
+            'clue' => 'required|string|max:200',
             'level_id' => 'required|exists:levels,id',
         ]);
 
