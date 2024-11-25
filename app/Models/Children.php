@@ -23,7 +23,7 @@ public function User()
     }
 
 
-    protected $fillable = ['name', 'lastname', 'birthdate', 'nickname', 'relation', 'avatar', 'gender', 'user_id']; //Campos que se van a asignacion masiva:
+    protected $fillable = ['name', 'lastname', 'birthdate', 'nickname', 'relation', 'avatar', 'gender', 'about', 'user_id']; //Campos que se van a asignacion masiva:
     protected $allowIncluded = ['User','Exchanges','Exchanges.Image_Users','Exchanges.Article','Exchanges.Article.Store',
     'Achievement','Achievement.Level','Achievement.Level.Topic','Achievement.Level.Question']; //las posibles Querys que se pueden realizar
     protected $allowFilter = ['id','name','lastname','age','nickname','relation','avatar','gender','user_id','children_id',];

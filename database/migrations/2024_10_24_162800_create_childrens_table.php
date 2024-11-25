@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('gender');
             $table->integer('diamonds')->default(0);
             $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->text('about')->nullable(); // Agregar el campo about
             $table->timestamps();
         });
     }

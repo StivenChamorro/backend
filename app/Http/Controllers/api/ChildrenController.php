@@ -30,6 +30,7 @@ class ChildrenController extends Controller
             'relation' => 'required|max:255',
             'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'gender' => 'required|max:100',
+            'about' => 'nullable|string|max:1000', 
         ]);
     
         try {
@@ -59,6 +60,7 @@ class ChildrenController extends Controller
                 'avatar' => $avatarUrl,
                 'gender' => $request->gender,
                 'user_id' => $user->id, // Asociar automáticamente al usuario autenticado
+                'about' => $request->about,
             ]);
     
             return response()->json([
@@ -102,6 +104,7 @@ class ChildrenController extends Controller
                 'relation' => 'nullable|max:255',
                 'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
                 'gender' => 'nullable|max:100',
+                'about' => 'nullable|string|max:1000', 
                 'user_id' => 'nullable|exists:users,id',
             ]);
 
