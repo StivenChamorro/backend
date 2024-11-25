@@ -21,11 +21,14 @@ public function User()
     {
     return $this->hasMany(Exchange::class); //belongsTo se usa para relacionar y obtener el inverso de una relacion uno a muchos
     }
+    public function Level_Completions(){
+        return $this->hasMany(LevelCompletion::class); //has many llama a todos lo logros que tiene relacionado el niño
+     }
 
 
-    protected $fillable = ['name', 'lastname', 'birthdate', 'nickname', 'relation', 'avatar', 'gender', 'user_id']; //Campos que se van a asignacion masiva:
-    protected $allowIncluded = ['User','Exchanges','Exchanges.Image_Users','Exchanges.Article','Exchanges.Article.Store',
-    'Achievement','Achievement.Level','Achievement.Level.Topic','Achievement.Level.Question']; //las posibles Querys que se pueden realizar
+    protected $fillable = ['name', 'lastname', 'birthdate', 'nickname', 'relation', 'avatar', 'gender','diamonds', 'user_id']; //Campos que se van a asignacion masiva:
+    protected $allowIncluded = ['Exchanges','Exchanges.Image_Users','Exchanges.Article','Exchanges.Article.Store',
+    ,'Level_Completions']; //las posibles Querys que se pueden realizar
     protected $allowFilter = ['id','name','lastname','age','nickname','relation','avatar','gender','user_id','children_id',];
  //relaciones a nivel de modelos
  // Un niño pertenece a un solo usuario
@@ -33,10 +36,6 @@ public function User()
 
  //relacion con logros
  //un niño tiene muchos logros por eso la fucnion esta nombrada en plural
-
-   public function Achievement(){
-      return $this->belongsTo(Achievement::class); //has many llama a todos lo logros que tiene relacionado el niño
-   }
 
     /////////////////////////////////////////////////////////////////////////////
     public function scopeIncluded(Builder $query)

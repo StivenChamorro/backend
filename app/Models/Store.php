@@ -10,11 +10,13 @@ class Store extends Model
 {
     protected $fillable = ['name', 'description'];
     protected $table = 'stores';
-
+    protected $allowIncluded = ['Articles','Articles.Exchanges','Articles.Exchanges.Image_users','Articles.Exchanges.Children',
+'Articles.Exchanges'];
+    protected $allowFilter = ['id', 'name', 'description'];
     // Relación uno a muchos con Articles
-    public function articles(): HasMany
+    public function Articles(): HasMany
     {
-        return $this->hasMany(Article::class, 'store_id');
+        return $this->hasMany(Article::class);
     }
 
     // Scope para incluir relaciones
@@ -27,7 +29,8 @@ class Store extends Model
         }
 
         $relations = explode(',', $relations);
-        $allowIncluded = ['articles']; // Relaciones permitidas para inclusión
+        $allowIncluded = ['Articles','Articles.Exchanges','Articles.Exchanges.Image_users','Articles.Exchanges.Children',
+    'Articles.Exchanges']; // Relaciones permitidas para inclusión
 
         $validRelations = array_filter($relations, function($relation) use ($allowIncluded) {
             return in_array($relation, $allowIncluded);

@@ -14,16 +14,19 @@ class LevelCompletion extends Model
         'level_id',
         'status',
     ];
+    protected $allowIncluded = ['Childrens'];
 
     // Relación con Children
-    public function child()
+    public function Children()
     {
         return $this->belongsTo(Children::class);
     }
 
     // Relación con Level
-    public function level()
+    public function Level()
     {
         return $this->belongsTo(Level::class);
     }
+
+    
 }
