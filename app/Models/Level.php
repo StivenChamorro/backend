@@ -38,6 +38,11 @@ class Level extends Model {
         return $this->belongsToMany(Children::class);
 
     }
+    public function LevelCompletions()
+    {
+    return $this->hasMany(LevelCompletion::class); //belongsTo se usa para relacionar y obtener el inverso de una relacion uno a muchos
+    }
+
 
     /*
     SCOPE-INCLUDED LEVEL/NIVELE (HAIVER) 

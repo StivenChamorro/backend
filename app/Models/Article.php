@@ -12,7 +12,9 @@ class Article extends Model
     protected $fillable = ['name', 'description', 'price', 'avatar','type', 'store_id'];
     protected $table = 'articles';
 
-    protected $allowIncluded = ['Store', 'Exchanges','Exchanges.Image_users']; // Relaciones permitidas para inclusión
+    protected $allowIncluded = ['Store', 'Exchanges','Exchanges.Image_users','Exchanges.Children',
+'Exchanges.Children.LevelCompletions','Exchanges.Children.LevelCompletions.Level','Exchanges.Children.LevelCompletions.Level.Questions',
+'Exchanges.Children.LevelCompletions.Level.Questions.Answers','Exchanges.Children.LevelCompletions.Level.Topic']; // Relaciones permitidas para inclusión
     protected $allowFilter = ['id', 'name', 'description', 'price']; // Campos permitidos para filtrado
     protected $allowSort = ['id', 'name', 'price']; // Campos permitidos para ordenamiento
 

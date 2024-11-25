@@ -41,7 +41,10 @@ class ImageUserController extends Controller
 
     public function index()
     {
-        $image_users = Image_User::all(); // Puedes agregar filtros o includes si es necesario
+        $image_users = image_user::included() // Incluye relaciones según el parámetro 'included'
+            ->filter()   // Aplica filtros según el parámetro 'filter'
+            ->sort()     // Ordena los resultados según el parámetro 'sort'
+            ->get();  // Puedes agregar filtros o includes si es necesario
         return response()->json($image_users);
     }
 

@@ -6,23 +6,36 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Store extends Model
+class LevelCompletion extends Model
 {
-    protected $fillable = ['name', 'description'];
-    protected $table = 'stores';
-    protected $allowIncluded = ['Articles', 'Articles.Exchanges','Articles.Exchanges.Image_users'
-    ,'Articles.Exchanges.Children','Articles.Exchanges.Children.User','Articles.Exchanges.Children.LevelCompletions',
-'Articles.Exchanges.Children.LevelCompletions.Level','Articles.Exchanges.Children.LevelCompletions.Level.Topic',
-'Articles.Exchanges.Children.LevelCompletions.Level.Questions','Articles.Exchanges.Children.LevelCompletions.Level.Questions.Answers']; // Relaciones permitidas para inclusión
-    protected $allowFilter = ['id', 'name', 'description'];
+    
 
-    // Relación uno a muchos con Articles
-    public function Articles(): HasMany
+    protected $fillable = [
+        'child_id',
+        'level_id',
+        'status',
+    ];
+    protected $allowIncluded = ['Children','Children.User','Children.Exchanges','Children.Exchanges.Image_users',
+     'Children.Exchanges.Articles','Children.Exchanges.Articles.Store'];
+
+     protected $allowFilter = [
+        'child_id',
+        'level_id',
+        'status',
+    ];
+
+    // Relación con Children
+    public function Children()
     {
-        return $this->hasMany(Article::class);
+        return $this->belongsTo(Children::class);
     }
 
-    // Scope para incluir relaciones
+    // Relación con Level
+    public function Level()
+    {
+        return $this->belongsTo(Level::class);
+    }
+
     public function scopeIncluded(Builder $query): void
     {
         $relations = request('included');
@@ -32,10 +45,8 @@ class Store extends Model
         }
 
         $relations = explode(',', $relations);
-        $allowIncluded = ['Articles', 'Articles.Exchanges','Articles.Exchanges.Image_users'
-        ,'Articles.Exchanges.Children','Articles.Exchanges.Children.User','Articles.Exchanges.Children.LevelCompletions',
-        'Articles.Exchanges.Children.LevelCompletions.Level','Articles.Exchanges.Children.LevelCompletions.Level.Topic',
-    'Articles.Exchanges.Children.LevelCompletions.Level.Questions','Articles.Exchanges.Children.LevelCompletions.Level.Questions.Answers' ]; // Relaciones permitidas para inclusión
+        $allowIncluded = ['Children','Children.User','Children.Exchanges','Children.Exchanges.Image_users',
+     'Children.Exchanges.Articles','Children.Exchanges.Articles.Store']; // Relaciones permitidas para inclusión
 
         $validRelations = array_filter($relations, function($relation) use ($allowIncluded) {
             return in_array($relation, $allowIncluded);

@@ -16,7 +16,10 @@ public function User()
     {
     return $this->belongsTo(User::class); //belongsTo se usa para relacionar y obtener el inverso de una relacion uno a muchos
     }
-
+    public function LevelCompletions()
+    {
+    return $this->hasMany(LevelCompletion::class); //belongsTo se usa para relacionar y obtener el inverso de una relacion uno a muchos
+    }
 
     public function Exchanges()
     {
