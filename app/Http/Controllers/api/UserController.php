@@ -4,8 +4,10 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Carbon\Carbon;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -166,6 +168,40 @@ class UserController extends Controller
         $user = $request->user();
         return response()->json($user);
     }
+
+
+
+
+public function validateBirthYear(Request $request)
+{
+    $validated = $request->validate([
+        'year' => 'required|integer|digits:4',
+    ]);
+
+    try {
+        $user = Auth::user(); // Obtener el usuario autenticado
+        $birthYear = Carbon::parse($user->birthdate)->year; // Obtener el año de nacimiento del usuario
+
+        if ($birthYear == $validated['year']) {
+            return response()->json([
+                'message' => 'Fecha de nacimiento correcta',
+                'success' => true
+            ], 200);
+        }
+
+        return response()->json([
+            'message' => 'Fecha de nacimiento incorrecta',
+            'success' => false
+        ], 400);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'message' => 'Error al validar la fecha de nacimiento',
+            'error' => $e->getMessage()
+        ], 500);
+    }
+}
+
 
 }
 
