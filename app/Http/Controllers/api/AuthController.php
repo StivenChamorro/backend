@@ -36,11 +36,12 @@ class AuthController extends Controller
             'user' => 'required|max:255',
             'password' => 'required|confirmed|min:3',
         ]);
- 
-        if($validator->fails()){
-            return response()->json($validator->errors()->toJson(), 400);
+    
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()->toArray()], 400);
         }
- 
+    
+        // Crear el usuario
         $user = new User;
         $user->name = request()->name;
         $user->last_name = request()->last_name;
@@ -49,9 +50,17 @@ class AuthController extends Controller
         $user->password = bcrypt(request()->password);
         $user->user = request()->user;
         $user->save();
- 
-        return response()->json($user, 201);
+    
+        // Generar un token JWT para el usuario
+        $token = auth()->login($user);
+    
+        // Respuesta con el token y los datos del usuario
+        return response()->json([
+            'user' => $user,
+            'accessToken' => $token
+        ], 201);
     }
+    
 
     /**
      * Get a JWT via given credentials.
