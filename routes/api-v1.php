@@ -54,7 +54,8 @@ Route::group([
     Route::post('me', [AuthController::class, 'me'])->name('me');
 });
 
-
+// Rutas protegidas con middleware auth:api
+Route::middleware('auth:api')->group(function () {
 // RUTAS_TOPICS (HAIVER VELASCO)
 Route::prefix('topic')->group(function () {
     Route::get('/index', [TopicController::class, 'index']);
@@ -155,4 +156,6 @@ Route::prefix('answer')->group(function () {
     Route::get('/show/{id}', [AnswerController::class, 'show']); // Obtener una respuesta específica
     Route::put('/update/{id}', [AnswerController::class, 'update']);// Actualizar una respuesta específica
     Route::delete('/delete/{id}', [AnswerController::class, 'destroy']); // Eliminar una respuesta específica
+});
+
 });

@@ -16,6 +16,20 @@ class Handler extends ExceptionHandler
         //
     ];
 
+    protected function unauthenticated($request, \Illuminate\Auth\AuthenticationException $exception)
+{
+    // Verifica si la solicitud es API
+    if ($request->expectsJson()) {
+        return response()->json([
+            'error' => 'No autorizado. Por favor, inicie sesión.',
+            'code' => 401
+        ], 401);
+    }
+
+    // Si no es una API, redirige a la ruta de login (en caso de una solicitud web)
+    //return redirect()->route('login');
+}
+
     /**
      * A list of the exception types that are not reported.
      *
