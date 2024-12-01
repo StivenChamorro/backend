@@ -23,7 +23,7 @@ class Topic extends Model
     //Con este metodo relacionamos la topic(tema) y levels(niveles) a nivel de modelo con hasMany(tiene muchos) y la ruta de dicho modelo.
     public function Levels()
     {
-        return $this->hasMany('App\Models\Levels');
+        return $this->hasMany('App\Models\Level');
     }
 
     /* SCOPE-INCLUDED LEVEL/NIVELE (HAIVER) */
