@@ -150,4 +150,9 @@ class TopicController extends Controller
             ], 500);
         }
     }
+
+    public function level($id){
+        $topic = Topic::with('Levels.Questions.answers')->findOrFail($id);
+        return response()->json($topic);
+    }
 }
