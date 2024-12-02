@@ -152,7 +152,7 @@ class TopicController extends Controller
     }
 
     public function level($id){
-        $topic = Topic::with('Levels.Questions.answers')->findOrFail($id);
+        $topic = Topic::with('Levels.Question.answers')->findOrFail($id);
         return response()->json($topic);
     }
 }
