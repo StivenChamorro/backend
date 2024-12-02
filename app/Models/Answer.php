@@ -11,7 +11,7 @@ class Answer extends Model
     use HasFactory;
 
     // Relación con la pregunta (question_id)
-    public function Question()
+
     public function Question()
     {
         return $this->belongsTo(Question::class);

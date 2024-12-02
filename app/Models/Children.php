@@ -29,12 +29,7 @@ public function User()
         return $this->hasMany(LevelCompletion::class); //has many llama a todos lo logros que tiene relacionado el niño
      }
 
-
-    protected $fillable = ['name', 'lastname', 'birthdate', 'nickname', 'relation', 'avatar', 'gender','diamonds', 'user_id']; //Campos que se van a asignacion masiva:
-    protected $allowIncluded = ['Exchanges','Exchanges.Image_Users','Exchanges.Article','Exchanges.Article.Store',
-    ,'Level_Completions']; //las posibles Querys que se pueden realizar
-    protected $allowFilter = ['id','name','lastname','age','nickname','relation','avatar','gender','user_id','children_id',];
-    public function Levels(){
+ public function Levels(){
         return $this->belongsToMany(level::class); //has many llama a todos lo logros que tiene relacionado el niño
      }
   
