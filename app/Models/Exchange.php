@@ -13,7 +13,7 @@ class Exchange extends Model
     protected $table = 'exchanges';
 
     // Relaciones permitidas para inclusión
-    protected $allowIncluded = ['Article','Article.Store', 'Children','Childre.Levels']; // Añadir más relaciones si es necesario
+    protected $allowIncluded = ['Article','Article.Store','Image_Users','Children']; // Añadir más relaciones si es necesario
     // Campos permitidos para filtrado
     protected $allowFilter = ['id', 'description'];
     // Campos permitidos para ordenamiento
@@ -22,13 +22,13 @@ class Exchange extends Model
     // Relación con el modelo Article
     public function Article(): BelongsTo
     {
-        return $this->belongsTo(Article::class, 'article_id');
+        return $this->belongsTo(Article::class);
     }
 
     // Relación con el modelo Children
     public function Children(): BelongsTo
     {
-        return $this->belongsTo(Children::class, 'children_id');
+        return $this->belongsTo(Children::class );
     }
     public function Image_Users()
     {

@@ -15,7 +15,7 @@ class Topic extends Model
 
     /* Con $allowIncluded podemos relaizar querys. en este caso se pueden ver los id de topics y questions de dicho level,
     ya que $allowIncluded me permite anidar los id de topics y questions como FK de level */
-    protected $allowIncluded=['levels','levels.Level_complemetions','levels.Level_complemetions.childrens','levels.Level_complemetions.childrens.users'];
+    protected $allowIncluded=['Levels','levels.Level_complemetions','levels.Level_complemetions.childrens','levels.Level_complemetions.childrens.users'];
 
     /* Con $allowfilter podemos realizar busquedas especificas de un nivel en especifico. */
     protected $allowFilter = ['id','image' ,'description'];

@@ -14,6 +14,7 @@ class Image_User extends Model
 
     protected $allowIncluded = ['Exchange','Exchange.Article','Exchange.Article.Store',
     'Exchange.Children','Exchange.Children.User'];
+    protected $allowIncluded = ['Exchange','Exchange.Article','Exchange.Article.Store','Exchange.Children'];
 
     protected $allowFilter = ['id', 'image', 'exchange_id'];
 

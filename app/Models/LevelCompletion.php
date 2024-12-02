@@ -26,11 +26,13 @@ class LevelCompletion extends Model
 
     // Relación con Children
     public function Children()
+    public function Children()
     {
         return $this->belongsTo(Children::class);
     }
 
     // Relación con Level
+    public function Level()
     public function Level()
     {
         return $this->belongsTo(Level::class);

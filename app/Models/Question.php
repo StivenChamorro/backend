@@ -21,7 +21,7 @@ class Question extends Model
     //Con este metodo relacionamos la levels(niveles) y question(pregunta) a nivel de modelo con hasMany(tiene muchos) y la ruta de dicho modelo.
     public function Level()
     {
-        return $this->belongsTo(level::class);
+        return $this->belongsTo(Level::class);
     }
 
       // Relación de uno a muchos con las respuestas

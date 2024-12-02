@@ -12,6 +12,7 @@ class Answer extends Model
 
     // Relación con la pregunta (question_id)
     public function Question()
+    public function Question()
     {
         return $this->belongsTo(Question::class);
     }

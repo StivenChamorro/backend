@@ -14,8 +14,8 @@ class Level extends Model {
 
     /* Con $allowIncluded podemos relaizar querys. en este caso se pueden ver los id de topics y questions de dicho level,
     ya que $allowIncluded me permite anidar los id de topics y questions como FK de level */
-    protected $allowIncluded=['Topic','Questions','Childrens','Childrens.Users'];
-    
+    protected $allowIncluded=['Topic','Questions','Questions.Answers','Level_Completions'];
+
     /* Con $allowfilter podemos realizar busquedas especificas de un nivel en especifico. */
     protected $allowFilter = ['id','name','score','topic_id'];
 
@@ -33,19 +33,12 @@ class Level extends Model {
 
     // relacion a nivel de modelos relacion con achievement un nivel tiene muchos logros por eso la funcion esta en plural
 
-    public function Childrens(){
-
-        return $this->belongsToMany(Children::class);
-
-    }
-    public function LevelCompletions()
-    {
-    return $this->hasMany(LevelCompletion::class); //belongsTo se usa para relacionar y obtener el inverso de una relacion uno a muchos
-    }
-
+    public function Level_Completions(){
+        return $this->hasMany(LevelCompletion::class); //has many llama a todos lo logros que tiene relacionado el niño
+     }
 
     /*
-    SCOPE-INCLUDED LEVEL/NIVELE (HAIVER) 
+    SCOPE-INCLUDED LEVEL/NIVELE (HAIVER)
     */
     public function scopeIncluded(Builder $query)
     {
@@ -67,7 +60,7 @@ class Level extends Model {
 
         $query->with($relations);
     }
-    
+
     // SCOPE-FILTER (HAIVER VELASCO)
 
     public function scopeFilter(Builder $query)
