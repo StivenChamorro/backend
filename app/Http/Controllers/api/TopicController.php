@@ -63,62 +63,61 @@ class TopicController extends Controller
     }
 
     public function update(Request $request, $id)
-{
-    try {
-        // Buscar el tema por su ID
-        $topic = Topic::findOrFail($id);
+    {
+        try {
+            // Buscar el tema por su ID
+            $topic = Topic::findOrFail($id);
 
-        // Validar los campos de la solicitud
-        $validated = $request->validate([
-            'name' => 'required|string|max:50',
-            'description' => 'required|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validar imagen si existe
-        ]);
+            // Validar los campos de la solicitud
+            $validated = $request->validate([
+                'name' => 'required|string|max:50',
+                'description' => 'required|string|max:255',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validar imagen si existe
+            ]);
 
-        // Si hay una nueva imagen
-        if ($request->hasFile('image')) {
-            // Eliminar la imagen antigua de Cloudinary si existe
-            if ($topic->image) {
-                $publicId = pathinfo(parse_url($topic->image, PHP_URL_PATH), PATHINFO_FILENAME);
-                Cloudinary::destroy($publicId);
+            // Si hay una nueva imagen
+            if ($request->hasFile('image')) {
+                // Eliminar la imagen antigua de Cloudinary si existe
+                if ($topic->image) {
+                    $publicId = pathinfo(parse_url($topic->image, PHP_URL_PATH), PATHINFO_FILENAME);
+                    Cloudinary::destroy($publicId);
+                }
+
+                // Subir la nueva imagen
+                $image = $request->file('image');
+                $uploadedFile = Cloudinary::upload($image->getRealPath());
+                $imageUrl = $uploadedFile->getSecurePath();
+            } else {
+                // Si no se envía una nueva imagen, mantener la anterior
+                $imageUrl = $topic->image;
             }
 
-            // Subir la nueva imagen
-            $image = $request->file('image');
-            $uploadedFile = Cloudinary::upload($image->getRealPath());
-            $imageUrl = $uploadedFile->getSecurePath();
-        } else {
-            // Si no se envía una nueva imagen, mantener la anterior
-            $imageUrl = $topic->image;
+            // Actualizar el tema con los nuevos valores
+            $topic->update([
+                'name' => $validated['name'],
+                'description' => $validated['description'],
+                'image' => $imageUrl, // Asignar la nueva URL de la imagen (o la antigua)
+            ]);
+
+            // Responder con un mensaje de éxito
+            return response()->json([
+                'message' => 'Topic updated successfully!',
+                'topic' => $topic,
+            ], 200);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            // Si el tema no se encuentra
+            return response()->json([
+                'message' => 'Topic not found.',
+                'error' => $e->getMessage(),
+            ], 404);
+        } catch (\Exception $e) {
+            // Manejo general de errores
+            return response()->json([
+                'message' => 'Error updating the topic.',
+                'error' => $e->getMessage(),
+            ], 500);
         }
-
-        // Actualizar el tema con los nuevos valores
-        $topic->update([
-            'name' => $validated['name'],
-            'description' => $validated['description'],
-            'image' => $imageUrl, // Asignar la nueva URL de la imagen (o la antigua)
-        ]);
-
-        // Responder con un mensaje de éxito
-        return response()->json([
-            'message' => 'Topic updated successfully!',
-            'topic' => $topic,
-        ], 200);
-
-    } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-        // Si el tema no se encuentra
-        return response()->json([
-            'message' => 'Topic not found.',
-            'error' => $e->getMessage(),
-        ], 404);
-    } catch (\Exception $e) {
-        // Manejo general de errores
-        return response()->json([
-            'message' => 'Error updating the topic.',
-            'error' => $e->getMessage(),
-        ], 500);
     }
-}
 
 
     public function destroy($id)
@@ -151,8 +150,20 @@ class TopicController extends Controller
         }
     }
 
-    public function level($id){
+    public function level($id)
+    {
         $topic = Topic::with('Levels.Question.answers')->findOrFail($id);
         return response()->json($topic);
+    }
+
+    public function getLevelsByTopic($id)
+    {
+        $topic = Topic::with('Levels')->find($id);
+
+        if (!$topic) {
+            return response()->json(['message' => 'Topic not found'], 404);
+        }
+
+        return response()->json(['Levels' => $topic->Levels]);
     }
 }
