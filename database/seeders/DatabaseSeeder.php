@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -24,6 +25,10 @@ class DatabaseSeeder extends Seeder
             'password' => '123456789',
             'pin' => '1234'
         ]);*/
+
+          // Vaciar las tablas antes de insertar datos
+        DB::table('answers')->truncate();
+        DB::table('questions')->truncate();
 
         $this->call([
             QuestionSeeder::class,
