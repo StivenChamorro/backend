@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('image'); //url de la imagen del usuario
-            $table->string('description');
+            $table->text('description');
             $table->timestamps();
         });
     }
