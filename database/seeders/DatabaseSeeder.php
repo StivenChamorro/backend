@@ -27,8 +27,18 @@ class DatabaseSeeder extends Seeder
         ]);*/
 
           // Vaciar las tablas antes de insertar datos
+        DB::table('topics')->delete();
         DB::table('questions')->delete();
-        DB::table('answers')->delete(); 
+        DB::table('answers')->delete();
+        DB::table('users')->delete();
+
+        $this->call([
+            UserSeeder::class,
+        ]);
+        
+        $this->call([
+            TopicSeeder::class,
+        ]);
 
         $this->call([
             QuestionSeeder::class,
