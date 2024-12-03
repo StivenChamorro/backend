@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Level;
 use App\Models\Topic;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Http\Request;
@@ -165,5 +166,17 @@ class TopicController extends Controller
         }
 
         return response()->json(['Levels' => $topic->Levels]);
+    }
+
+
+    public function getQuizByTopic($topicId, $levelId)
+    {
+        // Busca el nivel por el ID del tema y del nivel
+        $level = Level::where('topic_id', $topicId)
+            ->where('id', $levelId)
+            ->with('Question.answers') // Cargar preguntas y respuestas si es necesario
+            ->firstOrFail();
+
+        return response()->json($level);
     }
 }
