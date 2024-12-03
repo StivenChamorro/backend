@@ -96,7 +96,7 @@ class QuestionSeeder extends Seeder
             [
                 "id" => 11,
                 "question" => "¿Cuántas lunas tiene Júpiter?",
-                "correct-answer" => "79",
+                "correct_answer" => "79",
                 "score" => 75,
                 "clue" => "Es el planeta con más lunas conocidas.",
                 "level_id" => 5
@@ -104,7 +104,7 @@ class QuestionSeeder extends Seeder
             [
                 "id" => 12,
                 "question" => "¿Cuál es el nombre de nuestra galaxia?",
-                "correct-answer" => "Vía Láctea",
+                "correct_answer" => "Vía Láctea",
                 "score" => 75,
                 "clue" => "Es una galaxia espiral donde está el Sistema Solar.",
                 "level_id" => 5
@@ -112,7 +112,7 @@ class QuestionSeeder extends Seeder
             [
                 "id" => 13,
                 "question" => "¿Qué planeta tiene la gravedad más fuerte?",
-                "correct-answer" => "Júpiter",
+                "correct_answer" => "Júpiter",
                 "score" => 80,
                 "clue" => "Es el planeta más grande del Sistema Solar.",
                 "level_id" => 5
@@ -120,7 +120,7 @@ class QuestionSeeder extends Seeder
             [
                 "id" => 14,
                 "question" => "¿Qué es un cometa?",
-                "correct-answer" => "Un cuerpo de hielo",
+                "correct_answer" => "Un cuerpo de hielo",
                 "score" => 80,
                 "clue" => "Está compuesto de hielo, polvo y rocas.",
                 "level_id" => 5
@@ -128,7 +128,7 @@ class QuestionSeeder extends Seeder
             [
                 "id" => 15,
                 "question" => "¿Qué telescopio espacial ha capturado imágenes del espacio profundo?",
-                "correct-answer" => "Hubble",
+                "correct_answer" => "Hubble",
                 "score" => 85,
                 "clue" => "Fue lanzado por la NASA en 1990.",
                 "level_id" => 5
@@ -136,7 +136,7 @@ class QuestionSeeder extends Seeder
             [
                 "id" => 16,
                 "question" => "¿Qué es un agujero negro?",
-                "correct-answer" => "Una región de gravedad intensa",
+                "correct_answer" => "Una región de gravedad intensa",
                 "score" => 85,
                 "clue" => "Ni siquiera la luz puede escapar de él.",
                 "level_id" => 5
@@ -144,7 +144,7 @@ class QuestionSeeder extends Seeder
             [
                 "id" => 17,
                 "question" => "¿Qué planeta tiene un día más largo que un año?",
-                "correct-answer" => "Venus",
+                "correct_answer" => "Venus",
                 "score" => 90,
                 "clue" => "Gira muy lentamente sobre su eje.",
                 "level_id" => 5
@@ -152,7 +152,7 @@ class QuestionSeeder extends Seeder
             [
                 "id" => 18,
                 "question" => "¿Qué son los exoplanetas?",
-                "correct-answer" => "Planetas fuera del Sistema Solar",
+                "correct_answer" => "Planetas fuera del Sistema Solar",
                 "score" => 90,
                 "clue" => "Existen más allá de nuestro sistema.",
                 "level_id" => 5
@@ -160,7 +160,7 @@ class QuestionSeeder extends Seeder
             [
                 "id" => 19,
                 "question" => "¿Cuántos años tarda la luz del Sol en llegar a la Tierra?",
-                "correct-answer" => "8 minutos",
+                "correct_answer" => "8 minutos",
                 "score" => 95,
                 "clue" => "Es menos de 10 minutos.",
                 "level_id" => 5
@@ -168,7 +168,7 @@ class QuestionSeeder extends Seeder
             [
                 "id" => 20,
                 "question" => "¿Quién fue el primer humano en el espacio?",
-                "correct-answer" => "Yuri Gagarin",
+                "correct_answer" => "Yuri Gagarin",
                 "score" => 95,
                 "clue" => "Fue un cosmonauta ruso.",
                 "level_id" => 5
@@ -176,7 +176,7 @@ class QuestionSeeder extends Seeder
             [
                 "id" => 21,
                 "question" => "¿Qué fenómeno explica la expansión del universo?",
-                "correct-answer" => "El Big Bang",
+                "correct_answer" => "El Big Bang",
                 "score" => 100,
                 "clue" => "Es el evento que dio origen al universo.",
                 "level_id" => 6
@@ -184,7 +184,7 @@ class QuestionSeeder extends Seeder
             [
                 "id" => 22,
                 "question" => "¿Cómo se llama el punto más cercano al Sol en la órbita de un planeta?",
-                "correct-answer" => "Perihelio",
+                "correct_answer" => "Perihelio",
                 "score" => 100,
                 "clue" => "Es lo opuesto al afelio.",
                 "level_id" => 6
@@ -192,7 +192,7 @@ class QuestionSeeder extends Seeder
             [
                 "id" => 23,
                 "question" => "¿Qué es un año luz?",
-                "correct-answer" => "La distancia que recorre la luz en un año",
+                "correct_answer" => "La distancia que recorre la luz en un año",
                 "score" => 105,
                 "clue" => "Es una medida de distancia, no de tiempo.",
                 "level_id" => 6
@@ -200,7 +200,7 @@ class QuestionSeeder extends Seeder
             [
                 "id" => 24,
                 "question" => "¿Qué planeta tiene la luna más grande del Sistema Solar?",
-                "correct-answer" => "Júpiter",
+                "correct_answer" => "Júpiter",
                 "score" => 105,
                 "clue" => "La luna se llama Ganímedes.",
                 "level_id" => 6
@@ -208,7 +208,7 @@ class QuestionSeeder extends Seeder
             [
                 "id" => 25,
                 "question" => "¿Qué elemento es el principal componente del Sol?",
-                "correct-answer" => "Hidrógeno",
+                "correct_answer" => "Hidrógeno",
                 "score" => 110,
                 "clue" => "Es el elemento más ligero.",
                 "level_id" => 6
@@ -216,7 +216,7 @@ class QuestionSeeder extends Seeder
             [
                 "id" => 26,
                 "question" => "¿Qué provoca las estaciones del año?",
-                "correct-answer" => "La inclinación del eje terrestre",
+                "correct_answer" => "La inclinación del eje terrestre",
                 "score" => 110,
                 "clue" => "Es debido a la inclinación de 23.5 grados.",
                 "level_id" => 6
@@ -224,7 +224,7 @@ class QuestionSeeder extends Seeder
             [
                 "id" => 27,
                 "question" => "¿Qué es la Vía Láctea?",
-                "correct-answer" => "Una galaxia",
+                "correct_answer" => "Una galaxia",
                 "score" => 115,
                 "clue" => "Es el hogar de nuestro Sistema Solar.",
                 "level_id" => 6
@@ -232,7 +232,7 @@ class QuestionSeeder extends Seeder
             [
                 "id" => 28,
                 "question" => "¿Qué planeta tiene el día más corto?",
-                "correct-answer" => "Júpiter",
+                "correct_answer" => "Júpiter",
                 "score" => 115,
                 "clue" => "Un día dura menos de 10 horas.",
                 "level_id" => 6
@@ -240,7 +240,7 @@ class QuestionSeeder extends Seeder
             [
                 "id" => 29,
                 "question" => "¿Qué instrumento mide los terremotos en la Tierra?",
-                "correct-answer" => "Sismógrafo",
+                "correct_answer" => "Sismógrafo",
                 "score" => 120,
                 "clue" => "Detecta ondas sísmicas.",
                 "level_id" => 6
@@ -248,7 +248,7 @@ class QuestionSeeder extends Seeder
             [
                 "id" => 30,
                 "question" => "¿Qué tipo de galaxia es la Vía Láctea?",
-                "correct-answer" => "Espiral",
+                "correct_answer" => "Espiral",
                 "score" => 120,
                 "clue" => "Tiene brazos que giran en espiral.",
                 "level_id" => 6
