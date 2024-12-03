@@ -65,7 +65,7 @@ Route::prefix('topic')->group(function () {
     Route::delete('/destroy/{topic}', [TopicController::class, 'destroy']);
     Route::get('/levels/{id}', [TopicController::class, 'level']);
     Route::get('/level_preview/{id}', [TopicController::class, 'getLevelsbyTopic']);
-    Route::get('/topic/{topicId}/level/{levelId}', [TopicController::class, 'getQuizByTopic']);
+    Route::get('/{topicId}/level/{levelId}', [TopicController::class, 'getQuizByTopic']);
 });
 
 // RUTAS_LEVELS (BRAYAN SOLARTE/HAIVER VELASCO)
