@@ -25,7 +25,8 @@ class DatabaseSeeder extends Seeder
             'pin' => '1234'
         ]);*/
 
-         // Llamada al seeder ChildrenSeeder
-         $this->call(ChildrenSeeder::class);
+        $this->call([
+            QuestionSeeder::class,
+        ]);
     }
 }
