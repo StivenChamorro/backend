@@ -11,7 +11,7 @@ class LevelController extends Controller
     /* En el metodo INDEX es por donde vamos a recibir todos los level/nivel que estan en nuestra bd. */
     public function index()
     {
-        $level = Level::included()->get();
+        $level = Level::with('Topic')->get();
         // $level = Level::all();
         return response()->json($level);
     }
