@@ -20,7 +20,7 @@ class TopicController extends Controller
         $validated = $request->validate([
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'name' => 'required|string|max:50',
-            'description' => 'required|string|max:255',
+            'description' => 'required|string|max:800',
         ]);
 
         try {
@@ -71,7 +71,7 @@ class TopicController extends Controller
             // Validar los campos de la solicitud
             $validated = $request->validate([
                 'name' => 'required|string|max:50',
-                'description' => 'required|string|max:255',
+                'description' => 'required|string|max:800',
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validar imagen si existe
             ]);
 
