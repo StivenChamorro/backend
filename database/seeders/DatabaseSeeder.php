@@ -32,6 +32,11 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             QuestionSeeder::class,
+        ]);
+
+        sleep(1);  // Retardo de 1 segundo (ajusta según sea necesario)
+
+        $this->call([
             AnswerSeeder::class,
         ]);
     }
