@@ -27,8 +27,8 @@ class DatabaseSeeder extends Seeder
         ]);*/
 
           // Vaciar las tablas antes de insertar datos
-        DB::table('answers')->truncate();
-        DB::table('questions')->truncate();
+        DB::table('questions')->delete();
+        DB::table('answers')->delete(); 
 
         $this->call([
             QuestionSeeder::class,
