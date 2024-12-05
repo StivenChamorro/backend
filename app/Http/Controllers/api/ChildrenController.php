@@ -183,12 +183,12 @@ class ChildrenController extends Controller
         $level = Level::findOrFail($levelId);
 
         // Verificar si el niño ya ha completado este nivel
-        $levelCompletion = LevelCompletion::where('child_id', $childId)->where('level_id', $levelId)->first();
+        $levelCompletion = LevelCompletion::where('children_id', $childId)->where('level_id', $levelId)->first();
 
         if (!$levelCompletion) {
             // Si no existe el registro de nivel completado, crearlo
             $levelCompletion = LevelCompletion::create([
-                'child_id' => $childId,
+                'children_id' => $childId,
                 'level_id' => $levelId,
                 'status' => 'completed', // Marcar como completado
             ]);
