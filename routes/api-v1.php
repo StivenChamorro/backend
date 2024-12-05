@@ -66,6 +66,7 @@ Route::prefix('topic')->group(function () {
     Route::get('/levels/{id}', [TopicController::class, 'level']);
     Route::get('/level_preview/{id}', [TopicController::class, 'getLevelsbyTopic']);
     Route::get('/{topicId}/level/{levelId}/{childId}', [TopicController::class, 'getQuizByTopic']);
+    Route::post('/children/{childId}/levels/{levelId}/complete', [ChildrenController::class, 'completeLevel']);
 });
 
 // RUTAS_LEVELS (BRAYAN SOLARTE/HAIVER VELASCO)
