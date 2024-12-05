@@ -10,7 +10,7 @@ class LevelCompletion extends Model
     use HasFactory;
 
     protected $fillable = [
-        'child_id',
+        'children_id',
         'level_id',
         'status',
     ];
