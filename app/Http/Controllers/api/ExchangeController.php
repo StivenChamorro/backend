@@ -72,7 +72,7 @@ class ExchangeController extends Controller
     // Crear el registro en la tabla de imágenes del usuario
     Image_User::create([
         'exchange_id' => $exchange->id,
-        'image_id' => $article->image_id, // Asegúrate de que `image_id` existe en el modelo Article
+        'url_imagen' => $article->avatar, // Asegúrate de que `image_id` existe en el modelo Article
         'children_id' => $children->id,
     ]);
 
