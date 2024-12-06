@@ -40,7 +40,7 @@ class ExchangeController extends Controller
     ]);
 
     // Verificar que el niño existe
-    $children = Children::find($request->child_id);
+    $children = Children::find($request->children_id);
     if (!$children) {
         return response()->json(['error' => 'Child not found.'], 404);
     }

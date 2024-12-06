@@ -100,7 +100,7 @@ class ImageUserController extends Controller
             return response()->json(['error' => 'Child not found.'], 404);
         }
     
-        $images = Image_User::where('child_id', $childId)
+        $images = Image_User::where('children_id', $childId)
                             ->with('image') // Asegúrate de que la relación 'image' esté configurada
                             ->get();
     
