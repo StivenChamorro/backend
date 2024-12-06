@@ -101,7 +101,6 @@ class ExchangeController extends Controller
     public function update(Request $request, Exchange $exchange)
     {
         $request->validate([
-            'description' => 'required|string|max:255',
             'id_children' => 'required|exists:childrens,id',
             'id_article' => 'required|exists:articles,id',
         ]);

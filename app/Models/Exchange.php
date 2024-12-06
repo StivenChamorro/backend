@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Exchange extends Model
 {
-    protected $fillable = ['description', 'children_id', 'article_id'];
+    protected $fillable = [ 'children_id', 'article_id'];
     protected $table = 'exchanges';
 
     // Relaciones permitidas para inclusión
