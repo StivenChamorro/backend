@@ -95,17 +95,17 @@ class ImageUserController extends Controller
 
     public function getImagesByChild($childId)
     {
-        $child = Children::find($childId);
-        if (!$child) {
-            return response()->json(['error' => 'Child not found.'], 404);
-        }
+        $images = Image_User::whereHas('Exchange', function ($query) use ($childId) {
+            $query->where('children_id', $childId); // Filtrar por el niño
+        })->get();
     
-        $images = Image_User::where('children_id', $childId)
-                            ->with('image') // Asegúrate de que la relación 'image' esté configurada
-                            ->get();
+        if ($images->isEmpty()) {
+            return response()->json(['error' => 'No images found for this child.'], 404);
+        }
     
         return response()->json($images);
     }
+    
     
 
 }
