@@ -14,18 +14,18 @@ class ImageUserController extends Controller
     {
         $request->validate([
             'exchange_id' => 'nullable|exists:exchanges,id',
-            'url_imagen' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'url_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         try {
             // Subir imagen a Cloudinary
-            $uploadedFile = Cloudinary::upload($request->file('url_imagen')->getRealPath());
+            $uploadedFile = Cloudinary::upload($request->file('url_image')->getRealPath());
             $imageUrl = $uploadedFile->getSecurePath();
 
             // Crear registro en la base de datos con la URL de Cloudinary
             $image_user = Image_User::create([
                 'exchange_id' => $request->exchange_id,
-                'url_imagen' => $imageUrl,
+                'url_image' => $imageUrl,
             ]);
 
             return response()->json([
@@ -56,17 +56,17 @@ class ImageUserController extends Controller
     {
         $request->validate([
             'exchange_id' => 'nullable|exists:exchanges,id',
-            'url_imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'url_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         try {
             $data = $request->only(['exchange_id']);
 
             // Subir imagen a Cloudinary si se envió una nueva imagen
-            if ($request->hasFile('url_imagen')) {
-                $uploadedFile = Cloudinary::upload($request->file('url_imagen')->getRealPath());
+            if ($request->hasFile('url_image')) {
+                $uploadedFile = Cloudinary::upload($request->file('url_image')->getRealPath());
                 $imageUrl = $uploadedFile->getSecurePath();
-                $data['url_imagen'] = $imageUrl;
+                $data['url_image'] = $imageUrl;
             }
 
             // Actualizar registro en la base de datos
