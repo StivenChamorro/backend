@@ -35,13 +35,13 @@ class ExchangeController extends Controller
     public function store(Request $request)
 {
     $request->validate([
-        'child_id' => 'required|exists:children,id',
+        'children_id' => 'required|exists:children,id',
         'article_id' => 'required|exists:articles,id',
     ]);
 
     // Verificar que el niño existe
-    $child = Children::find($request->child_id);
-    if (!$child) {
+    $children = Children::find($request->child_id);
+    if (!$children) {
         return response()->json(['error' => 'Child not found.'], 404);
     }
 
@@ -52,17 +52,17 @@ class ExchangeController extends Controller
     }
 
     // Verificar que el niño tiene suficientes gemas
-    if ($child->gemas < $article->precio) {
+    if ($children->gemas < $article->precio) {
         return response()->json(['error' => 'Not enough gems.'], 400);
     }
 
     // Restar gemas al niño
-    $child->gemas -= $article->precio;
-    $child->save();
+    $children->gemas -= $article->precio;
+    $children->save();
 
     // Crear el registro en la tabla de intercambios
     $exchange = Exchange::create([
-        'child_id' => $child->id,
+        'children_id' => $children->id,
         'article_id' => $article->id,
         'precio' => $article->precio,
     ]);
@@ -71,7 +71,7 @@ class ExchangeController extends Controller
     Image_User::create([
         'exchange_id' => $exchange->id,
         'image_id' => $article->image_id, // Asegúrate de que `image_id` existe en el modelo Article
-        'child_id' => $child->id,
+        'children_id' => $children->id,
     ]);
 
     return response()->json(['success' => 'Purchase completed successfully.'], 200);
