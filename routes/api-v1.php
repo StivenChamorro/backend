@@ -97,6 +97,7 @@ Route::prefix('children')->group(function () {
     Route::put('/update/{children}', [ChildrenController::class, 'update']);
     Route::delete('/destroy/{children}', [ChildrenController::class, 'destroy']);
     Route::post('/find-by-nickname', [ChildrenController::class, 'findByNickname']);
+    Route::get('/getchildrenbyuser', [ChildrenController::class, 'getChildrenByUser']);
 });
 
 Route::prefix('user')->group(function () {

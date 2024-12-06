@@ -235,5 +235,21 @@ public function findByNickname(Request $request)
     return response()->json($child, 200);
 }
 
+public function getChildrenByUser()
+{
+    // Obtén el usuario autenticado
+    $user = Auth::user();
+
+    // Verifica que haya un usuario autenticado
+    if (!$user) {
+        return response()->json(['message' => 'Usuario no autenticado'], 401);
+    }
+
+    // Obtén todos los niños relacionados con el usuario
+    $children = $user->Childrens;
+
+    return response()->json($children, 200);
+}
+
 
 }
