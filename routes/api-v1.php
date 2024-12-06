@@ -107,6 +107,7 @@ Route::prefix('user')->group(function () {
     Route::delete('/destroy/{user}', [UserController::class, 'destroy']);
     Route::get('/profile', [UserController::class, 'profile']);
     Route::post('/validate-birthyear', [UserController::class, 'validateBirthYear']);
+    Route::get('/{user}/children', [UserController::class, 'getChildren']);
 });
 
 //rutas brayan

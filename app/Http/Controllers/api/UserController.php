@@ -209,6 +209,25 @@ public function validateBirthYear(Request $request)
     }
 }
 
+public function getChildren($userId) {
+    // Obtén al padre con el id proporcionado
+    $father = User::find($userId);
+
+    // Verifica si el padre existe
+    if (!$father) {
+        return response()->json([
+            'message' => 'Padre no encontrado.',
+        ], 404);
+    }
+
+    // Recupera los niños de ese padre
+    $children = $father->children;
+
+    return response()->json([
+        'children' => $children,
+    ], 200);
+}
+
 
 }
 
