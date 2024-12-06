@@ -66,6 +66,7 @@ class ExchangeController extends Controller
         'children_id' => $children->id,
         'article_id' => $article->id,
         'price' => $article->price,
+        'description' => $request->description ?? 'canje exitoso', // Usa el valor enviado o un predeterminado
     ]);
 
     // Crear el registro en la tabla de imágenes del usuario
