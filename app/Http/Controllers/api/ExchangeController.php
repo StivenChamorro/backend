@@ -52,20 +52,20 @@ class ExchangeController extends Controller
         return response()->json(['error' => 'Article not found.'], 404);
     }
 
-    // Verificar que el niño tiene suficientes gemas
-    if ($children->gemas < $article->precio) {
+    // Verificar que el niño tiene suficientes diamonds
+    if ($children->diamonds < $article->price) {
         return response()->json(['error' => 'Not enough gems.'], 400);
     }
 
-    // Restar gemas al niño
-    $children->gemas -= $article->precio;
+    // Restar diamonds al niño
+    $children->diamonds -= $article->price;
     $children->save();
 
     // Crear el registro en la tabla de intercambios
     $exchange = Exchange::create([
         'children_id' => $children->id,
         'article_id' => $article->id,
-        'precio' => $article->precio,
+        'price' => $article->price,
     ]);
 
     // Crear el registro en la tabla de imágenes del usuario
@@ -77,8 +77,6 @@ class ExchangeController extends Controller
 
     return response()->json(['success' => 'Purchase completed successfully.'], 200);
 }
-    
-
     /**
      * Muestra el recurso especificado.
      *
