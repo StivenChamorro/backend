@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('image__users', function (Blueprint $table) {
             $table->id();
             $table->foreignId('exchange_id')->references('id')->on('exchanges')->onDelete('cascade');
-            $table->string('url_image');
+            $table->string('url_imagen');
             $table->timestamps();
         });
     }

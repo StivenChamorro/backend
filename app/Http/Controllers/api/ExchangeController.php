@@ -75,7 +75,7 @@ class ExchangeController extends Controller
         // Crear el registro en `image_users`
         Image_User::create([
             'exchange_id' => $exchange->id,
-            'url_image' => $article->avatar,
+            'url_imagen' => $article->avatar,
         ]);
     
         return response()->json(['success' => 'Purchase completed successfully.'], 200);
