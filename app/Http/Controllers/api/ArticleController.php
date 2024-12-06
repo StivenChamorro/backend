@@ -152,4 +152,20 @@ class ArticleController extends Controller
             ], 500);
         }
     }
+
+    public function filter(Request $request)
+{
+    $articles = Article::query();
+
+    if ($request->has('type')) {
+        $articles->where('type', $request->type);
+    }
+
+    if ($request->has('min_price') && $request->has('max_price')) {
+        $articles->whereBetween('price', [$request->min_price, $request->max_price]);
+    }
+
+    return response()->json($articles->get(), 200);
+}
+
 }
