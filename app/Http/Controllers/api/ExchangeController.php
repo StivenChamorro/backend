@@ -52,19 +52,19 @@ class ExchangeController extends Controller
     }
 
     // Verificar que el niño tiene suficientes gemas
-    if ($children->gemas < $article->precio) {
+    if ($children->diamonds < $article->price) {
         return response()->json(['error' => 'Not enough gems.'], 400);
     }
 
     // Restar gemas al niño
-    $children->gemas -= $article->precio;
+    $children->diamonds -= $article->price;
     $children->save();
 
     // Crear el registro en la tabla de intercambios
     $exchange = Exchange::create([
         'children_id' => $children->id,
         'article_id' => $article->id,
-        'precio' => $article->precio,
+        'price' => $article->price,
     ]);
 
     // Crear el registro en la tabla de imágenes del usuario
