@@ -37,6 +37,7 @@ class ExchangeController extends Controller
     $request->validate([
         'children_id' => 'required|exists:childrens,id',
         'article_id' => 'required|exists:articles,id',
+        'description' => 'nullable|string|max:255',
     ]);
 
     // Verificar que el niño existe
@@ -52,19 +53,19 @@ class ExchangeController extends Controller
     }
 
     // Verificar que el niño tiene suficientes gemas
-    if ($children->diamonds < $article->price) {
+    if ($children->gemas < $article->precio) {
         return response()->json(['error' => 'Not enough gems.'], 400);
     }
 
     // Restar gemas al niño
-    $children->diamonds -= $article->price;
+    $children->gemas -= $article->precio;
     $children->save();
 
     // Crear el registro en la tabla de intercambios
     $exchange = Exchange::create([
         'children_id' => $children->id,
         'article_id' => $article->id,
-        'price' => $article->price,
+        'precio' => $article->precio,
     ]);
 
     // Crear el registro en la tabla de imágenes del usuario
@@ -101,6 +102,7 @@ class ExchangeController extends Controller
     public function update(Request $request, Exchange $exchange)
     {
         $request->validate([
+            'description' => 'nullable|string|max:255',
             'id_children' => 'required|exists:childrens,id',
             'id_article' => 'required|exists:articles,id',
         ]);
