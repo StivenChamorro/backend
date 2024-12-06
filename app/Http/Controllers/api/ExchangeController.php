@@ -26,6 +26,8 @@ class ExchangeController extends Controller
         return response()->json($exchanges);
     }
 
+    
+
     /**
      * Almacena un recurso recién creado en almacenamiento.
      *
@@ -33,51 +35,54 @@ class ExchangeController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
-{
-    $request->validate([
-        'children_id' => 'required|exists:childrens,id',
-        'article_id' => 'required|exists:articles,id',
-        'description' => 'nullable|string|max:255',
-    ]);
-
-    // Verificar que el niño existe
-    $children = Children::find($request->children_id);
-    if (!$children) {
-        return response()->json(['error' => 'Child not found.'], 404);
+    {
+        $request->validate([
+            'children_id' => 'required|exists:childrens,id',
+            'article_id' => 'required|exists:articles,id',
+            'description' => 'nullable|string|max:255',
+        ]);
+    
+        $children = Children::find($request->children_id);
+        if (!$children) {
+            return response()->json(['error' => 'Child not found.'], 404);
+        }
+    
+        $article = Article::find($request->article_id);
+        if (!$article) {
+            return response()->json(['error' => 'Article not found.'], 404);
+        }
+    
+        if ($children->diamonds < $article->price) {
+            return response()->json(['error' => 'Not enough gems.'], 400);
+        }
+    
+        $children->diamonds -= $article->price;
+        $children->save();
+    
+        $exchange = Exchange::create([
+            'children_id' => $children->id,
+            'article_id' => $article->id,
+            'price' => $article->price,
+            'description' => $request->description ?? 'canje exitoso',
+        ]);
+    
+        // Obtener el artículo desde el exchange
+        $article = Article::find($exchange->article_id);
+        if (!$article || !$article->avatar) {
+            return response()->json(['error' => 'Article or avatar not found.'], 400);
+        }
+    
+        // Crear el registro en `image_users`
+        Image_User::create([
+            'exchange_id' => $exchange->id,
+            'url_imagen' => $article->avatar,
+        ]);
+    
+        return response()->json(['success' => 'Purchase completed successfully.'], 200);
     }
 
-    // Verificar que el artículo existe
-    $article = Article::find($request->article_id);
-    if (!$article) {
-        return response()->json(['error' => 'Article not found.'], 404);
-    }
+    
 
-    // Verificar que el niño tiene suficientes diamonds
-    if ($children->diamonds < $article->price) {
-        return response()->json(['error' => 'Not enough gems.'], 400);
-    }
-
-    // Restar diamonds al niño
-    $children->diamonds -= $article->price;
-    $children->save();
-
-    // Crear el registro en la tabla de intercambios
-    $exchange = Exchange::create([
-        'children_id' => $children->id,
-        'article_id' => $article->id,
-        'price' => $article->price,
-        'description' => $request->description ?? 'canje exitoso', // Usa el valor enviado o un predeterminado
-    ]);
-
-    // Crear el registro en la tabla de imágenes del usuario
-    Image_User::create([
-        'exchange_id' => $exchange->id,
-        'url_imagen' => $article->avatar, // Asegúrate de que `image_id` existe en el modelo Article
-        'children_id' => $children->id,
-    ]);
-
-    return response()->json(['success' => 'Purchase completed successfully.'], 200);
-}
     /**
      * Muestra el recurso especificado.
      *
