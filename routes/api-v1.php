@@ -110,13 +110,13 @@ Route::prefix('user')->group(function () {
 });
 
 //rutas brayan
-
 Route::prefix('imageUsers')->group(function () {
     Route::get('/index', [ImageUserController::class,'index']);
     Route::post('/store', [ImageUserController::class,'store']);
     Route::get('/show/{id}', [ImageUserController::class,'show']);
     Route::put('/update/{imageUser}', [ImageUserController::class,'update']);
     Route::delete('/destroy/{imageUser}', [ImageUserController::class,'destroy']);
+    Route::get('/image_users/{childId}', [ImageUserController::class, 'getImagesByChild']); // Ruta para obtener las imágenes compradas por un niño
 });
 
 
@@ -144,6 +144,7 @@ Route::prefix('articles')->group(function () {
     Route::get('/show/{id}', [ArticleController::class, 'show']);
     Route::put('/update/{article}', [ArticleController::class, 'update']);
     Route::delete('/delete/{article}', [ArticleController::class, 'destroy']);
+    Route::get('/filter', [ArticleController::class, 'filter']);
 });
 
 // Rutas para ExchangeController
@@ -153,6 +154,7 @@ Route::prefix('exchanges')->group(function () {
     Route::get('/show/{id}', [ExchangeController::class, 'show']);
     Route::put('/update/{exchange}', [ExchangeController::class, 'update']);
     Route::delete('/delete/{exchange}', [ExchangeController::class, 'destroy']);
+    Route::post('/exchanges/create', [ExchangeController::class, 'store']);
 });
 
 Route::prefix('answer')->group(function () {

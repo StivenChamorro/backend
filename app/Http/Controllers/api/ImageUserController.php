@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Children;
 use App\Models\Image_User;
 use Illuminate\Http\Request;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
@@ -91,4 +92,20 @@ class ImageUserController extends Controller
             'image_user' => $imageUser,
         ]);
     }
+
+    public function getImagesByChild($childId)
+    {
+        $child = Children::find($childId);
+        if (!$child) {
+            return response()->json(['error' => 'Child not found.'], 404);
+        }
+    
+        $images = Image_User::where('child_id', $childId)
+                            ->with('image') // Asegúrate de que la relación 'image' esté configurada
+                            ->get();
+    
+        return response()->json($images);
+    }
+    
+
 }
