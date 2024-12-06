@@ -26,7 +26,7 @@ class ExchangeController extends Controller
         return response()->json($exchanges);
     }
 
-    
+
 
     /**
      * Almacena un recurso recién creado en almacenamiento.
@@ -75,7 +75,7 @@ class ExchangeController extends Controller
         // Crear el registro en `image_users`
         Image_User::create([
             'exchange_id' => $exchange->id,
-            'url_imagen' => $article->avatar,
+            'url_image' => $article->avatar,
         ]);
     
         return response()->json(['success' => 'Purchase completed successfully.'], 200);
