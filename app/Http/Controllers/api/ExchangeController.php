@@ -35,7 +35,7 @@ class ExchangeController extends Controller
     public function store(Request $request)
 {
     $request->validate([
-        'children_id' => 'required|exists:children,id',
+        'children_id' => 'required|exists:childrens,id',
         'article_id' => 'required|exists:articles,id',
     ]);
 
@@ -102,7 +102,7 @@ class ExchangeController extends Controller
     {
         $request->validate([
             'description' => 'required|string|max:255',
-            'id_children' => 'required|exists:children,id',
+            'id_children' => 'required|exists:childrens,id',
             'id_article' => 'required|exists:articles,id',
         ]);
 
