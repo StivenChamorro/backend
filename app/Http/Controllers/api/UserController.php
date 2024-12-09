@@ -228,6 +228,36 @@ public function getChildren($userId) {
     ], 200);
 }
 
+public function getFirstChild(Request $request)
+{
+    try {
+        // Obtener el usuario autenticado
+        $user = Auth::user();
+
+        if (!$user) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+
+        // Obtener el primer niño asociado a este usuario
+        $child = $user->Childrens()->first(); // Obtener el primer niño (puedes ordenar si es necesario)
+
+        if (!$child) {
+            return response()->json(['message' => 'No children found for this user'], 404);
+        }
+
+        return response()->json([
+            'message' => 'First child retrieved successfully!',
+            'child' => $child,
+        ], 200);
+    } catch (\Exception $e) {
+        return response()->json([
+            'message' => 'Error retrieving first child.',
+            'error' => $e->getMessage(),
+        ], 500);
+    }
+}
+
+
 
 }
 
