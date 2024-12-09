@@ -98,7 +98,6 @@ Route::prefix('children')->group(function () {
     Route::delete('/destroy/{children}', [ChildrenController::class, 'destroy']);
     Route::post('/find-by-nickname', [ChildrenController::class, 'findByNickname']);
     Route::get('/getchildrenbyuser', [ChildrenController::class, 'getChildrenByUser']);
-    Route::get('/first-child', [UserController::class, 'getFirstChild']);
 });
 
 Route::prefix('user')->group(function () {
@@ -110,6 +109,7 @@ Route::prefix('user')->group(function () {
     Route::get('/profile', [UserController::class, 'profile']);
     Route::post('/validate-birthyear', [UserController::class, 'validateBirthYear']);
     Route::get('/{user}/children', [UserController::class, 'getChildren']);
+    Route::get('/first-child', [UserController::class, 'getFirstChild']);
 });
 
 //rutas brayan
