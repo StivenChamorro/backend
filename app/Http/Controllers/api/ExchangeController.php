@@ -35,51 +35,62 @@ class ExchangeController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
-    {
-        $request->validate([
-            'children_id' => 'required|exists:childrens,id',
-            'article_id' => 'required|exists:articles,id',
-            'description' => 'nullable|string|max:255',
-        ]);
-    
-        $children = Children::find($request->children_id);
-        if (!$children) {
-            return response()->json(['error' => 'Child not found.'], 404);
-        }
-    
-        $article = Article::find($request->article_id);
-        if (!$article) {
-            return response()->json(['error' => 'Article not found.'], 404);
-        }
-    
-        if ($children->diamonds < $article->price) {
-            return response()->json(['error' => 'Not enough gems.'], 400);
-        }
-    
-        $children->diamonds -= $article->price;
-        $children->save();
-    
-        $exchange = Exchange::create([
-            'children_id' => $children->id,
-            'article_id' => $article->id,
-            'price' => $article->price,
-            'description' => $request->description ?? 'canje exitoso',
-        ]);
-    
-        // Obtener el artículo desde el exchange
-        $article = Article::find($exchange->article_id);
-        if (!$article || !$article->avatar) {
-            return response()->json(['error' => 'Article or avatar not found.'], 400);
-        }
-    
-        // Crear el registro en `image_users`
+{
+    $request->validate([
+        'children_id' => 'required|exists:childrens,id',
+        'article_id' => 'required|exists:articles,id',
+        'description' => 'nullable|string|max:255',
+    ]);
+
+    $children = Children::find($request->children_id);
+    $article = Article::find($request->article_id);
+
+    if (!$children || !$article) {
+        return response()->json(['error' => 'Child or article not found.'], 404);
+    }
+
+    if ($children->diamonds < $article->price) {
+        return response()->json(['error' => 'Not enough gems.'], 400);
+    }
+
+    // Verificar si ya existe un intercambio para este artículo
+    $existingExchange = Exchange::where('children_id', $children->id)
+        ->where('article_id', $article->id)
+        ->first();
+
+    if ($existingExchange) {
+        return response()->json([
+            'error' => 'This article has already been purchased.',
+            'exchange' => $existingExchange
+        ], 400);
+    }
+
+    // Resta los diamantes y guarda
+    $children->diamonds -= $article->price;
+    $children->save();
+
+    // Crear nuevo intercambio
+    $exchange = Exchange::create([
+        'children_id' => $children->id,
+        'article_id' => $article->id,
+        'price' => $article->price,
+        'description' => $request->description ?? 'canje exitoso',
+    ]);
+
+    // Crear registro en image_users solo si no existe
+    $existingImageUser = Image_User::where('exchange_id', $exchange->id)
+        ->where('url_imagen', $article->avatar)
+        ->first();
+
+    if (!$existingImageUser) {
         Image_User::create([
             'exchange_id' => $exchange->id,
             'url_imagen' => $article->avatar,
         ]);
-    
-        return response()->json(['success' => 'Purchase completed successfully.'], 200);
     }
+
+    return response()->json(['success' => 'Purchase completed successfully.'], 200);
+}
 
     
 
